@@ -1,0 +1,45 @@
+{% extends "watching/layout.html" %}
+{% load static %}
+
+{% block body %}
+  <div class="listblock">
+    <h4>Current Most Popular Movies</h4>
+    <ol>
+      {% for item in popMovies %}
+        <li>
+          <a href="{% url 'details' 'movie' item.id %}" class="browseList">{{ item.title }}</a>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="listblock">
+    <h4>Current Most Popular Shows</h4>
+    <ol start="1">
+      {% for item in popShows %}
+        <li>
+          <a href="{% url 'details' 'tv' item.id %}" class="browseList">{{ item.name }}</a>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="listblock">
+    <h4>Top Rated Movies</h4>
+    <ol>
+      {% for item in topMovies %}
+        <li>
+          <a href="{% url 'details' 'movie' item.id %}" class="browseList">{{ item.title }}</a>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="listblock">
+    <h4>Top Rated Shows</h4>
+    <ol start="1">
+      {% for item in topShows %}
+        <li>
+          <a href="{% url 'details' 'tv' item.id %}" class="browseList">{{ item.name }}</a>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "watching/layout.html" %}
+{% load static %}
+
+{% block body %}
+  {% if message %}
+      <div>{{ message }}</div>
+  {% endif %}
+
+  <div>
+    <form action="{% url 'editlist' name %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{ id }}">
+      {{ form.as_p }}
+      <button class="btn btn-outline-primary">Submit</button>
+    </form>
+  </div>
+{% endblock %}

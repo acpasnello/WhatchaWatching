@@ -1,0 +1,14 @@
+{% extends "watching/layout.html" %}
+{% load static %}
+
+{% block body %}
+  {% for list in lists %}
+    <div>
+      <h3><a href="{% url 'viewlist' user.id list.name %}">{{ list.name }}</a></h3>
+      {{ list.description }}
+    </div>
+  {% empty %}
+    <p>You haven't created any lists yet!</p>
+    <a href="{% url 'createlist' %}">Create your first list.</a>
+  {% endfor %}
+{% endblock %}

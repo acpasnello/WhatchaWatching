@@ -1,0 +1,58 @@
+{% extends "watching/layout.html" %}
+{% load static %}
+
+{% block body %}
+  {% if poster %}
+    <span class="detailsPoster">
+      <img src="{{ poster }}">
+    </span>
+  {% endif %}
+  <div class="detailsInfo">
+    <h3 class="detailstitle">{{ data.title }}</h3>
+    <div class="addtolistbutton dropdown">
+      <button class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Add to List</button>
+      <form action="{% url 'addtolist' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ data.id }}">
+        <input type="hidden" name="type" value="movie">
+        <ul class="dropdown-menu">
+          {% for list in user.mylists.all %}
+            <li><a><input class="dropdown-item" type="submit" name="list" value="{{ list.name }}"></input></a></li>
+          {% endfor %}
+        </ul>
+      </form>
+    </div>
+    <p>{{ data.overview }}</p>
+    <ul>
+      {% for genre in data.genres %}
+        <li>{{ genre.name }}</li>
+      {% endfor %}
+    </ul>
+    {% if providers %}
+      <h4>Where to Watch:</h4>
+      {% if providers.flatrate %}
+        Streaming:<br>
+        {% for item in providers.flatrate %}
+          <img class="providerlogo" src="{{ item.logo }}">
+        {% endfor %}
+        <br>
+      {% endif %}
+      {% if providers.rent %}
+        Rent:<br>
+        {% for item in providers.rent %}
+          <img class="providerlogo" src="{{ item.logo }}">
+        {% endfor %}
+        <br>
+      {% endif %}
+      {% if providers.buy %}
+        Buy:<br>
+        {% for item in providers.buy %}
+          <img class="providerlogo" src="{{ item.logo }}">
+        {% endfor %}
+        <br>
+      {% endif %}
+      More info available <a href="{{ providers.link }}">here</a>.
+    {% endif %}
+  </div>
+  
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "watching/layout.html" %}
+{% load static %}
+
+{% block body %}
+  {% if message %}
+      <div>{{ message }}</div>
+      <a href="{% url 'createlist' %}">Click here to create a new list</a>
+  {% endif %}
+
+  <h4>{{ list.name }}</h4>
+  {% if owner %}
+    <a href="{% url 'editlist' list.name %}" class="btn btn-outline-primary btn-sm">Edit Details</a>
+  {% endif %}
+  <p class="listdesc">{{ list.description }}</p>
+  <hr>
+    {% for item in items %}
+      <div>
+        <a class="listlink" href="{% url 'details' item.type item.item %}">{{ item.name }}</a>
+        {% if owner %}
+          <form class="removebutton" action="{% url 'removefromlist' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="list" value="{{ list.name }}">
+            <input type="hidden" name="id" value="{{ item.item }}">
+            <button type="submit" class="removebutton btn btn-outline-danger btn-sm">Remove</button>
+          </form>
+        {% endif %}
+        <hr>
+      </div>
+    {% empty %}
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,75 @@
+.bodyblock {
+  padding: 5px;
+}
+.mynav {
+  width: 100%;
+}
+#searchform {
+  float: inline-end;
+  margin-left: auto;
+}
+
+.myForm {
+  margin-left: 5px;
+  margin-right: 5px;
+  max-width: 600px;
+}
+
+.listblock {
+  display: inline-block;
+  min-width: 35%;
+  max-width: 45%;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid #A9A9A9;
+  border-radius: 3px;
+}
+
+.detailsPoster {
+  max-width: 500px;
+  float: left
+}
+
+.detailsInfo {
+  display: inline-block;
+  max-width: 70%;
+  margin-left: 15px;
+}
+
+.browseList, .listlink {
+  text-decoration: none;
+  color: black;
+}
+.browseList:hover, .listlink:hover {
+  color: #4d4d4d;
+}
+
+.addtolistbutton {
+  float: right;
+  display: inline;
+}
+
+.searchtitle, .detailstitle {
+  display: inline-block;
+}
+
+.listlink {
+  display: inline;
+}
+
+.removebutton {
+  display: inline;
+  max-width: 100px;
+  float: right;
+  font-size: 0.75em;
+}
+
+.listdesc {
+  color: #393939;
+}
+
+.providerlogo {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+}

@@ -1,0 +1,35 @@
+{% extends "watching/layout.html" %}
+{% load static %}
+
+{% block searchterm %}
+{{ query }}
+{% endblock %}
+
+{% block body %}
+  {% for id, item in results.items %}
+    <div>
+      <h5 class="searchtitle"><a href="{% url 'details' item.type id %}">{{ item.title }}</a></h5>
+      <div class="addtolistbutton dropdown">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Add to List</button>
+        <form action="{% url 'addtolist' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="id" value="{{ id }}">
+          <input type="hidden" name="type" value="{{ item.type }}">
+          <ul class="dropdown-menu">
+            {% for list in user.mylists.all %}
+              <li><a><input class="dropdown-item" type="submit" name="list" value="{{ list.name }}"></input></a></li>
+            {% endfor %}
+          </ul>
+        </form>
+      </div>
+      <div>
+        {{ item.genre }}
+      <p>{{ item.overview }}</p>
+      </div>
+      <hr>
+    </div>
+  {% empty %}
+    <p>No results.</p>
+
+  {% endfor %}
+{% endblock %}
