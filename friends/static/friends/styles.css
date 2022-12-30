@@ -1,0 +1,27 @@
+.friendsresult {
+    text-decoration: none;
+    color: gray;
+}
+#friendsheader {
+    display: inline-block;
+}
+#friendsearch {
+    display: inline-block;
+    float: right;
+}
+#friendsresultlist {
+    list-style-type: none;
+}
+.friendsresultlistitem {
+    list-style-type: none;
+}
+#friendslist {
+    display: inline-block;
+    max-width: 65%;
+    border: 1px black;
+}
+#requests {
+    display: inline-block;
+    max-width: 30%;
+    border: 1px black;
+}

@@ -7,6 +7,8 @@
 #searchform {
   float: inline-end;
   margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .myForm {
@@ -72,4 +74,22 @@
   width: 50px;
   height: 50px;
   border-radius: 5px;
+}
+
+.listtitle {
+  display: inline-block;
+}
+
+.listowner {
+  display: inline-block;
+  color: #b3b3b3;
+}
+
+.listownerlink {
+  text-decoration: none;
+  color: #b3b3b3;
+}
+
+.listownerlink:hover {
+  color: #999999;
 }

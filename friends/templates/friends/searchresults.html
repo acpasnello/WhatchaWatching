@@ -1,0 +1,22 @@
+{% extends "friends/friendsbase.html" %}
+{% load static %}
+{% load friends_extras %}
+
+{% block community %}
+    <h3>Results:</h3>
+    <ul class="friendsresultlist">
+        {% for item in results %}
+            <li class="friendsresultlistitem">
+                <a href="{% url 'profile' item.pk %}" class="friendsresult">{{ item.username }}</a>
+                <form action="{{ item.button.formaction }}" method="POST" id="form{{item.pk}}" style="display: inline-block;">
+                    {% csrf_token %}
+                    <input type="submit" value="{{ item.button.value }}" class="btn btn-outline-success">
+                    <input form="form{{item.pk}}" type="hidden" name="receiver" value="{{ item.pk }}">
+                </form>
+            </li>
+            <hr>
+        {% empty %}
+            Nothing here!
+        {% endfor %}
+    </ul>
+{% endblock %}

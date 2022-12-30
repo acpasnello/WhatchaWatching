@@ -6,6 +6,7 @@ from sqlite3 import IntegrityError
 import requests
 import json
 
+from FinalProject.keys import api_key
 from .models import User, List, ListItem
 from .forms import ListForm
 from .helpers import getGenre, getImage, constructInfo, listCheck, getShow, getMovie, getProviders
@@ -13,11 +14,12 @@ from .helpers import getGenre, getImage, constructInfo, listCheck, getShow, getM
 # Save base request URL for reuse
 baseURL = "https://api.themoviedb.org/3/"
 # Save TMDB API key for use in requests
-apiKey = '5101df70114a3ec8bc95967d080b3352'
+# apiKey = '5101df70114a3ec8bc95967d080b3352'
+apiKey = api_key
 
 # Create your views here.
 def index(request):
-    return render(request, 'watching/layout.html')
+    return render(request, 'layout.html')
 
 def login_view(request):
     if request.method == "POST":
@@ -31,7 +33,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             request.session['user_id'] = user.id
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("browse"))
         else:
             return render(request, "watching/login.html", {
                 "message": "Invalid username and/or password."
@@ -61,9 +63,9 @@ def register(request):
             user = User.objects.create_user(username, email, password)
             user.save()
             # Create Watchlist and Favorites List for new user
-            watchlist = List.objects.create(name='Watchlist', owner=user)
+            watchlist = List.objects.create(name='Watchlist', description="To watch soon", owner=user)
             watchlist.save()
-            favorites = List.objects.create(name='Favorites', owner=user)
+            favorites = List.objects.create(name='Favorites', description='My all-time favorites', owner=user)
             favorites.save()
         except IntegrityError:
             return render(request, "watching/register.html", {
@@ -143,8 +145,12 @@ def viewlist(request, userid, name):
         ownerviewing = False
     if listcheck:
         list = List.objects.filter(owner=request.user).get(name=name)
+        # if ListItem.objects.filter(list=list.pk).count() > 0:
         items = ListItem.objects.filter(list=list.pk)
-        return render(request, 'watching/viewlist.html', {'list': list, 'items': items, 'owner': ownerviewing})
+        return render(request, 'watching/viewlist.html', {'list': list, 'items': items, 'ownerviewing': ownerviewing, 'owner': owner})
+        # else:
+            # return render(request, 'watching/viewlist.html', {'list': list})
+
     else:
         return render(request, 'watching/viewlist.html', {'message': 'This list does not exist'})
 
@@ -249,7 +255,7 @@ def addtolist(request):
                 r = getShow(id)
                 name = r['original_name']
                 typechoice = 'S'
-            newitem = ListItem(list = list, item = id, name = name, type = typechoice)
+            newitem = ListItem(list = list, itemID = id, name = name, type = typechoice)
             newitem.save()
         else:
             return render(request, 'watching/viewlist.html', {'message': 'The list you are trying to add to does not exist!'})
@@ -269,7 +275,7 @@ def removefromlist(request):
         # Confirm list owner is requesting user
         user = request.user
         if user == list.owner:
-            item = ListItem.objects.filter(list=list).filter(item=id)
+            item = ListItem.objects.filter(list=list).filter(itemID=id)
             item.delete()
             return HttpResponseRedirect(reverse('viewlist', args=[list.owner.pk, listname]))
         else:

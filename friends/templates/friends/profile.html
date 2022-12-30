@@ -1,0 +1,14 @@
+{% extends "friends/friendsbase.html" %}
+{% load static %}
+
+{% block community %}
+    <h1>{{ user.username }}</h1>
+    <h4>Lists:</h4>
+    <ul>
+        {% for list in lists %}
+            <li><a href="{% url 'viewlist' user.pk list.name %}">{{ list.name }}</a></li>
+        {% empty %}
+            No lists yet!
+        {% endfor %}
+    </ul>
+{% endblock %}

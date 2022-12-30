@@ -11,6 +11,7 @@ class List(models.Model):
     description = models.TextField(blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mylists')
     # contributors = models.
+    # private = models.BooleanField(default=False)
 
 class ListItem(models.Model):
     # Define media type options
@@ -20,15 +21,18 @@ class ListItem(models.Model):
     ]
 
     list = models.ForeignKey(List, on_delete=models.CASCADE)
-    item = models.IntegerField() # will be the ID, so you can look for a Media object or search TMDB
+    itemID = models.IntegerField() # will be the ID, so you can look for a Media object or search TMDB
     name = models.CharField(max_length=200)
     type = models.CharField(max_length=20, choices=media_types)
 
+
 class Media(models.Model):
     # Define media type options
+    MOVIE = 'M'
+    SHOW = 'S'
     media_types = [
-    ('M', 'Movie'),
-    ('S', 'Show'),
+    (MOVIE, 'Movie'),
+    (SHOW, 'Show'),
     ]
 
     id = models.IntegerField(primary_key=True)
