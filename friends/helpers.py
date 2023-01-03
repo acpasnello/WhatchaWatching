@@ -49,7 +49,10 @@ def buttonFiller(activeUser, subjectUser, ship):
         receiver = subjectUser.pk
     elif action == 'respond':
         # Accept or deny friend request
-        pass
+        label = "Respond to Request"
+        value = ['Accept', 'Reject']
+        formaction = [reverse('acceptfriend'), reverse('cancelrequest')]
+        receiver = subjectUser.pk
     elif action == 'remove':
         # Are friends, can remove friend or block
         pass

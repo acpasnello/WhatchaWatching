@@ -22,7 +22,16 @@ def index(request):
     # Get active user
     user = User.objects.get(pk=request.user.id)
     # Search relationships for their friends, need to search with user in both possible user slots
-    friends = Relationship.objects.filter(type=FRIENDS).filter(Q(user_first=user) | Q(user_second=user))
+    friendsquery = Relationship.objects.filter(type=FRIENDS).filter(Q(user_first=user) | Q(user_second=user))
+    friends = []
+    for item in friendsquery:
+        # friends[item.pk] = {}
+        # friends[item.pk]['username'] = item.otherUser(user).username
+        username = item.otherUser(user).username
+        # friends[item.pk]['since'] = item.lastupdated
+        since = item.lastupdated
+        friends.append({'username': username, 'since': since})
+    print(friends)
     # Get sent requests
     sentRequests = Relationship.objects.filter((Q(user_first=user) & Q(type=PENDING_FIRST_SECOND)) | (Q(user_second=user) & Q(type=PENDING_SECOND_FIRST)))
     # Get incoming requests
@@ -132,6 +141,7 @@ def accept_friend(request):
             if ship.type == 'PFS' or ship.type == 'PSF':
                 ship.type = 'F'
                 ship.save()
+                HttpResponseRedirect(reverse('friends-index'))
             else:
                 # Want this to show message to user that they do not have a friend request to accept
                 HttpResponseRedirect(reverse('index'))

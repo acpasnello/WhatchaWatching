@@ -71,6 +71,16 @@ class Relationship(models.Model):
         else:
             return None
         
+    def otherUser(self, activeUser):
+        position = self.position(activeUser)
+        if position == 1:
+            other = User.objects.get(pk=self.user_second.id)
+        elif position == 2:
+            other = User.objects.get(pk=self.user_first.id)
+        else:
+            other = None
+        return other
+
         # https://stackoverflow.com/questions/379236/database-design-best-table-structure-for-capturing-the-user-friend-relationship
 
 

@@ -23,7 +23,7 @@
         <div id="friendslist">
             <h4>Your Friends</h4>
             {% for friend in friends %}
-                {{ friend.username }}
+                {{ friend.username }} - Friends since: {{ friend.since }}<br>
             {% empty %}
                 No friends yet! Try meeting some people, loser.
             {% endfor %}
@@ -31,11 +31,16 @@
         <div id="incRequests">
             <h4>Requests</h4>
             {% for item in incRequests %}
-                {{ item.user_first }} - <a href="{% url 'profile' item.user_second.pk %}" class="friendsresult">{{ item.user_second }}</a> - {{ item.type }} - {% if labels|get_value:item.pk %}{{ labels|get_value:item.pk }}{% endif %} 
-                <form action="{{ formactions|get_value:item.pk }}" method="POST" id="form{{item.pk}}" style="display: inline-block;">
+                {{ item.user_first }} - <a href="{% url 'profile' item.user_second.pk %}" class="friendsresult">{{ item.user_second }}</a> - {% if labels|get_value:item.pk %}{{ labels|get_value:item.pk }}{% endif %} 
+                <form action="{{ formactions|get_value:item.pk|index:0 }}" method="POST" id="form{{item.pk}}" style="display: inline-block;">
                     {% csrf_token %}
-                    <input type="submit" value="{{ values|get_value:item.pk }}" class="btn btn-outline-success">
-                    <input form="form{{item.pk}}" type="hidden" name="receiver" value="{{ item.pk }}">
+                    <input type="submit" value="{{ values|get_value:item.pk|index:0 }}" class="btn btn-outline-success">
+                    <input form="form{{item.pk}}" type="hidden" name="receiver" value="{{ receivers|get_value:item.pk }}">
+                </form>
+                <form action="{{ formactions|get_value:item.pk|index:1 }}" method="POST" id="form{{item.pk}}" style="display: inline-block;">
+                    {% csrf_token %}
+                    <input type="submit" value="{{ values|get_value:item.pk|index:1 }}" class="btn btn-outline-danger">
+                    <input form="form{{item.pk}}" type="hidden" name="receiver" value="{{ receivers|get_value:item.pk }}">
                 </form><br>
             {% empty %}
                 No one wants to be your friend. :(
