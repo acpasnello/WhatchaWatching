@@ -27,10 +27,11 @@ def index(request):
     for item in friendsquery:
         # friends[item.pk] = {}
         # friends[item.pk]['username'] = item.otherUser(user).username
+        userid = item.otherUser(user).id
         username = item.otherUser(user).username
         # friends[item.pk]['since'] = item.lastupdated
         since = item.lastupdated
-        friends.append({'username': username, 'since': since})
+        friends.append({'username': username, 'userid': userid, 'since': since})
     print(friends)
     # Get sent requests
     sentRequests = Relationship.objects.filter((Q(user_first=user) & Q(type=PENDING_FIRST_SECOND)) | (Q(user_second=user) & Q(type=PENDING_SECOND_FIRST)))

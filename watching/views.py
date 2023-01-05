@@ -19,7 +19,7 @@ apiKey = api_key
 
 # Create your views here.
 def index(request):
-    return render(request, 'layout.html')
+    return render(request, 'watching/index.html')
 
 def login_view(request):
     if request.method == "POST":
@@ -80,18 +80,27 @@ def browse(request):
     # Get top rated movies
     partialURL = baseURL + 'discover/'
     popularityParams = {'api_key': apiKey, 'sort_by': 'popularity.desc', 'include_adult': False, 'page': 1}
-    topRatedParams = {'api_key': apiKey, 'sort_by': 'vote_average.desc', 'include_adult': False, 'page': 1, 'watch_region': 'US'}
+    topRatedParams = {'api_key': apiKey, 'sort_by': 'vote_average.desc', 'include_adult': False, 'page': 1, 'watch_region': 'US', 'vote_count.gte': 300}
     moviesURL = partialURL + 'movie'
     showsURL = partialURL + 'tv'
     popMoviesRequest = requests.get(url = moviesURL, params = popularityParams)
     topRatedMoviesRequest = requests.get(url= moviesURL, params = topRatedParams)
     popShowsRequest = requests.get(url = showsURL, params = popularityParams)
     topRatedShowsRequest = requests.get(url = showsURL, params = topRatedParams)
+    # Get Popular Movies
     popMovies = popMoviesRequest.json()
+    popMovies = popMovies['results']
+    # Get Top Rated Movies
     topMovies = topRatedMoviesRequest.json()
+    topMovies = topMovies['results']
+    # Get Popular Shows
     popShows = popShowsRequest.json()
+    popShows = popShows['results']
+    # Get Top Rated Shows
     topShows = topRatedShowsRequest.json()
-    return render(request, 'watching/browse.html', {'topMovies': topMovies['results'], 'topShows': topShows['results'], 'popMovies': popMovies['results'], 'popShows': popShows['results']})
+    topShows = topShows['results']
+
+    return render(request, 'watching/browse.html', {'topMovies': topMovies, 'topShows': topShows, 'popMovies': popMovies, 'popShows': popShows})
 
 def createlist(request):
     if request.method == "POST":
@@ -208,7 +217,9 @@ def search(request):
                 results[id]['genre'] = getGenre(result['genre_ids'], 1, type)
             else:
                 results[id]['genre'] = None
-
+            # Get Poster if exists
+            if result['poster_path']:
+                results[id]['poster_path'] = result['poster_path']
         return render(request, "watching/searchresults.html", {'results': results, 'query': query})
 
 def details(request, type, id):

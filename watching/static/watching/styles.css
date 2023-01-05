@@ -16,15 +16,22 @@
   margin-right: 5px;
   max-width: 600px;
 }
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
 
 .listblock {
   display: inline-block;
-  min-width: 35%;
-  max-width: 45%;
+  /* min-width: 35%; */
+  max-width: 40%;
   margin: 5px;
   padding: 5px;
   border: 1px solid #A9A9A9;
   border-radius: 3px;
+  position: relative;
+  flex: 25%;
 }
 
 .detailsPoster {
@@ -44,6 +51,11 @@
 }
 .browseList:hover, .listlink:hover {
   color: #4d4d4d;
+}
+
+.browseList {
+  /* white-space: pre-wrap; */
+  overflow: auto;
 }
 
 .addtolistbutton {
@@ -92,4 +104,65 @@
 
 .listownerlink:hover {
   color: #999999;
+}
+
+.browseImage {
+  /* padding: .25rem; */
+  background-color: #fff;
+  max-width: 100px;
+  height: auto;
+  border: 1px solid #999999;
+  border-radius: .375rem;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.browseImage:hover {
+  border-color: #282828;
+  opacity: 0.75;
+}
+@media screen and (max-width: 800px) {
+  img.lazy {
+    width: 50px;
+    height: auto;
+  }
+  .searchposter img {
+    width: 125px;
+  }
+}
+@media screen and (min-width: 800px){
+  img.lazy {
+    width: 75px;
+    height: auto;
+  }
+  .searchposter img {
+    min-width: 150px;
+  }
+}
+
+.listblock li {
+  margin: 1px;
+}
+.browseList p {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.search-flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.searchposter {
+  position: relative;
+  display: inline;
+  float: left;
+}
+
+.searchinfo {
+  padding-left: 5px;
+  display: inline-block;
+  float: right;
+  max-width: 80%;
 }

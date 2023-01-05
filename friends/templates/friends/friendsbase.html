@@ -2,6 +2,8 @@
 {% load static %}
 {% load friends_extras %}
 
+{% block nav-com-class %}class="nav-link active"{% endblock %}
+
 {% block moresheets %}
     <link href="{% static 'friends/styles.css' %}" rel="stylesheet">
 {% endblock moresheets %}
@@ -23,7 +25,7 @@
         <div id="friendslist">
             <h4>Your Friends</h4>
             {% for friend in friends %}
-                {{ friend.username }} - Friends since: {{ friend.since }}<br>
+                <a href="{% url 'profile' friend.userid %}" class="friendsresult">{{ friend.username }}</a> - Friends since: {{ friend.since }}<br>
             {% empty %}
                 No friends yet! Try meeting some people, loser.
             {% endfor %}

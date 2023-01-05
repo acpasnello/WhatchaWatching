@@ -1,45 +1,68 @@
 {% extends "layout.html" %}
 {% load static %}
+{% load watching_extras %}
+
+{% block nav-home-class %}
+  class="nav-link"
+{% endblock %}
+
+{% block nav-browse-class %}
+  class="nav-link active"
+{% endblock %}
 
 {% block body %}
-  <div class="listblock">
-    <h4>Current Most Popular Movies</h4>
-    <ol>
-      {% for item in popMovies %}
-        <li>
-          <a href="{% url 'details' 'movie' item.id %}" class="browseList">{{ item.title }}</a>
-        </li>
-      {% endfor %}
-    </ol>
-  </div>
-  <div class="listblock">
-    <h4>Current Most Popular Shows</h4>
-    <ol start="1">
-      {% for item in popShows %}
-        <li>
-          <a href="{% url 'details' 'tv' item.id %}" class="browseList">{{ item.name }}</a>
-        </li>
-      {% endfor %}
-    </ol>
-  </div>
-  <div class="listblock">
-    <h4>Top Rated Movies</h4>
-    <ol>
-      {% for item in topMovies %}
-        <li>
-          <a href="{% url 'details' 'movie' item.id %}" class="browseList">{{ item.title }}</a>
-        </li>
-      {% endfor %}
-    </ol>
-  </div>
-  <div class="listblock">
-    <h4>Top Rated Shows</h4>
-    <ol start="1">
-      {% for item in topShows %}
-        <li>
-          <a href="{% url 'details' 'tv' item.id %}" class="browseList">{{ item.name }}</a>
-        </li>
-      {% endfor %}
-    </ol>
+  <div class="flex-container">
+    <div class="listblock">
+      <h4>Current Most Popular Movies</h4>
+      <ol>
+        {% for item in popMovies|slice:":10" %}
+          <li>
+            <a href="{% url 'details' 'movie' item.id %}" class="browseList">
+              <img src="{{ item.poster_path|get_pic }}" class="browseImage" alt="{{ item.title }}">
+              <p>{{ item.title }}</p>
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="listblock">
+      <h4>Current Most Popular Shows</h4>
+      <ol start="1">
+        {% for item in popShows|slice:":10" %}
+          <li>
+            <a href="{% url 'details' 'tv' item.id %}" class="browseList">
+              <img src="https://via.placeholder.com/50x75" data-src="{{ item.poster_path|get_pic }}" class="browseImage lazy" alt="{{ item.name }}">
+              {{ item.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="listblock">
+      <h4>Top Rated Movies</h4>
+      <ol>
+        {% for item in topMovies|slice:":10" %}
+          <li>
+            <a href="{% url 'details' 'movie' item.id %}" class="browseList">
+              <img src="https://via.placeholder.com/50x75" data-src="{{ item.poster_path|get_pic }}" class="browseImage lazy" alt="{{ item.title }}">
+              <span>{{ item.title }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="listblock">
+      <h4>Top Rated Shows</h4>
+      <ol start="1">
+        {% for item in topShows|slice:":10" %}
+          <li>
+            <a href="{% url 'details' 'tv' item.id %}" class="browseList">
+              <img src="https://via.placeholder.com/50x75" data-src="{{ item.poster_path|get_pic }}" class="browseImage lazy" alt="{{ item.name }}">
+              <span>{{ item.name }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
   </div>
 {% endblock %}
