@@ -11,7 +11,7 @@
     <h3 class="detailstitle">{{ data.original_name }}</h3>
     {% if user.is_authenticated %}
       <div class="details-buttons btn-group btn-group-sm" role="group">
-        <button id="add-rating-button" class="btn btn-danger">
+        <button id="add-rating-button" class="btn btn-danger" type="button">
           {% if rating %}
             Your Rating: {{ rating.rating }}
           {% else %}
@@ -35,8 +35,8 @@
             </form>
           </div>
         </div>
-        <div class="addtolistbutton dropdown">
-          <button class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Add to List</button>
+        <div class="addtolistbutton btn-group btn-group-sm" role="group">
+          <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Add to List</button>
           <form action="{% url 'addtolist' %}" method="POST">
             {% csrf_token %}
             <input type="hidden" name="id" value="{{ data.id }}">
@@ -59,20 +59,20 @@
     <h4>Where to Watch:</h4>
     {% if providers.flatrate %}
       {% for item in providers.flatrate %}
-      <img class="providerlogo" src="{{ item.logo }}">
+      <img class="providerlogo lazyprovider" data-src="{{ item.logo }}">
       {% endfor %}
       <br>
     {% endif %}
 
     {% if providers.rent %}
       {% for item in providers.rent %}
-      <img class="providerlogo" src="{{ item.logo }}">
+      <img class="providerlogo lazyprovider" data-src="{{ item.logo }}">
       {% endfor %}
       <br>
     {% endif %}
     {% if providers.buy %}
       {% for item in providers.buy %}
-        <img class="providerlogo" src="{{ item.logo }}">
+        <img class="providerlogo lazyprovider" data-src="{{ item.logo }}">
       {% endfor %}
       <br>
     {% endif %}

@@ -62,11 +62,13 @@ def register(request):
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
-            # Create Watchlist and Favorites List for new user
+            # Create Watchlist, Favorites, and Watched Lists for new user
             watchlist = List.objects.create(name='Watchlist', description="To watch soon", owner=user)
             watchlist.save()
             favorites = List.objects.create(name='Favorites', description='My all-time favorites', owner=user)
             favorites.save()
+            watched = List.objects.create(name='Watched', description='Already Seen', owner=user)
+            watched.save()
         except IntegrityError:
             return render(request, "watching/register.html", {
                 "message": "Username already taken."
@@ -241,8 +243,7 @@ def details(request, type, id):
     providers = getProviders(id, type)
     # Check for rating
     rating = None
-    ratingcheck =  ratingCheck(request.user.id, id)
-    if ratingcheck:
+    if ratingCheck(request.user.id, id):
        rating = Rating.objects.filter(user=request.user.id).get(subject=id)
 
     # Render correct details page

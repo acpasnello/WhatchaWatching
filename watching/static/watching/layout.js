@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   var lazyloadImages = document.querySelectorAll("img.lazy");    
   var lazyloadThrottleTimeout;
+  var lazyproviderimages = document.querySelectorAll("img.lazyprovider")
   
   function lazyload () {
     if(lazyloadThrottleTimeout) {
@@ -17,13 +18,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         if(lazyloadImages.length == 0) { 
           document.removeEventListener("scroll", lazyload);
-          window.removeEventListener("resize", lazyload);
-          window.removeEventListener("orientationChange", lazyload);
+          // window.removeEventListener("resize", lazyload);
+          // window.removeEventListener("orientationChange", lazyload);
         }
     }, 20);
   }
   
   document.addEventListener("scroll", lazyload);
+
+  setTimeout(loadProviders, 50);
+  function loadProviders () {
+    lazyproviderimages.forEach(function(img) {
+      img.src = img.dataset.src;
+      img.classList.remove('lazyprovider');
+    })
+  }
   // window.addEventListener("resize", lazyload);
   // window.addEventListener("orientationChange", lazyload);
 
