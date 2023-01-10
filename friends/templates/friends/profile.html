@@ -3,12 +3,27 @@
 
 {% block community %}
     <h1>{{ user.username }}</h1>
-    <h4>Lists:</h4>
-    <ul>
-        {% for list in lists %}
-            <li><a href="{% url 'viewlist' user.pk list.name %}">{{ list.name }}</a></li>
-        {% empty %}
-            No lists yet!
-        {% endfor %}
-    </ul>
+    <div class="flex-container">
+        <div class="profile-lists-block">
+            <h4>Lists</h4>
+            <hr>
+            <ul>
+                {% for list in lists %}
+                    <li>
+                        <a href="{% url 'viewlist' user.pk list.name %}">{{ list.name }}</a>
+                        <ul>
+                            <li>{{ list.description }}</li>
+                        </ul>
+                    </li>
+                    
+                {% empty %}
+                    No lists yet!
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="profile-friends-block">
+            <h4>Friends</h4>
+            <hr>
+        </div>
+    </div>
 {% endblock %}

@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 from .helpers import logActivity, orderUsers, checkShip, buttonFiller
-from watching.models import User
+from watching.helpers import ratingCheck
+from watching.models import User, Rating
 from .models import Relationship
 
 # Create your views here.
@@ -183,3 +186,39 @@ def cancel_request(request):
         # Turn into JSON response
         return HttpResponseRedirect(reverse('index'))
 
+def remove_friend(request):
+    pass
+
+@csrf_exempt
+def add_rating(request):
+    if request.method == 'POST':
+        jsondata = json.loads(request.body)
+        user = User.objects.get(pk=request.user.id)
+        subject = jsondata.get('subject')
+        rating = jsondata.get('rating')
+        # Check if editing review
+        if ratingCheck(user, subject):
+            oldRating = Rating.objects.filter(user=user).get(subject=subject)
+            oldRating.rating = rating
+            if jsondata.get('review'):
+                review = jsondata.get('review')
+                oldRating.review = review
+                oldRating.save()
+            else:
+                oldRating.save()
+            response = JsonResponse({'message': 'Rating Updated', 'success': True})
+        else:
+            if jsondata.get('review'):
+                review = jsondata.get('review')
+                newRating = Rating(user=user,subject=subject,rating=rating,review=review)
+                newRating.save()
+                print("success")
+            else:
+                newRating = Rating(user=user,subject=subject,rating=rating)
+                newRating.save()
+                print("success")
+            response = JsonResponse({'message': 'Rating Saved', 'success': True})
+        return response
+
+    else:
+        return HttpResponseRedirect(reverse('friends-index'))

@@ -85,7 +85,21 @@ class Relationship(models.Model):
 
 
 class Activity(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # action
+    # Define actions
+    RATE = 'rated'
+    REVIEW = 'reviewed'
+    LIST = 'Add to List'
+    WATCH = 'Watched'
+    action_types = [
+        (RATE, 'Rating'),
+        (REVIEW,'Review'),
+        (LIST,'Add to List'),
+        (WATCH, 'Watched'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='myActivity')
+    action = models.CharField(max_length=30, choices=action_types)
     # subject = models.ForeignKey(Media, on_delete=models.CASCADE)
-    pass
+    subject = models.IntegerField()
+    when = models.DateTimeField(auto_now_add=True)
+    

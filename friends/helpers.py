@@ -3,7 +3,8 @@ from .models import Activity, Relationship
 
 def logActivity(request, media, action):
     newactivity = Activity(user=request.user, action=action, subject=media)
-    pass
+    newactivity.save()
+    return True
 
 def orderUsers(user1, user2):
     if user1.pk < user2.pk:
@@ -55,7 +56,10 @@ def buttonFiller(activeUser, subjectUser, ship):
         receiver = subjectUser.pk
     elif action == 'remove':
         # Are friends, can remove friend or block
-        pass
+        label = 'Remove Friend'
+        value = 'Remove Friend'
+        formaction = reverse('removefriend')
+        receiver = subjectUser.pk
     elif action == 'unblock':
         # Currently blocked, can unblock
         pass

@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener("scroll", lazyload);
   // window.addEventListener("resize", lazyload);
   // window.addEventListener("orientationChange", lazyload);
-});
 
   // let sInput = document.querySelector('#search')
   // sInput.addEventListener("keydown", function(){
@@ -77,7 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
   //     event.stopPropagation()
   //   }
   // })
-// })
+
+})
 
 async function getSearch(query){
   let csrf = getCookie('csrftoken')

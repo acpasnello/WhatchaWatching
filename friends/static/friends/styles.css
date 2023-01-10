@@ -25,3 +25,14 @@
     max-width: 30%;
     border: 1px black;
 }
+
+.profile-lists-block {
+    min-width: 250px;
+    max-width: 50%;
+    margin-right: 10px;
+}
+
+.profile-friends-block {
+    min-width: 250px;
+    max-width: 50%;
+}

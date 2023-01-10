@@ -24,7 +24,6 @@
 
 .listblock {
   display: inline-block;
-  /* min-width: 35%; */
   max-width: 40%;
   margin: 5px;
   padding: 5px;
@@ -41,7 +40,7 @@
 
 .detailsInfo {
   display: inline-block;
-  max-width: 70%;
+  max-width: 80%;
   margin-left: 15px;
 }
 
@@ -54,7 +53,6 @@
 }
 
 .browseList {
-  /* white-space: pre-wrap; */
   overflow: auto;
 }
 
@@ -165,4 +163,35 @@
   display: inline-block;
   float: right;
   max-width: 80%;
+}
+
+.details-buttons {
+  display: inline-flex;
+  flex-direction: row;
+  float: right;
+}
+.add-rating-button {
+  position: relative;
+  display: inline;
+  /* float: right; */
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  right: 20px;
+  top: 15%;
+  width: 30%;
+  height: auto;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.popup-content {
+  background-color: #fefefe;
+  margin: 5%;
+  padding: 20px;
+  border: 1px solid #888;
 }

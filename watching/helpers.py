@@ -4,7 +4,7 @@ from django.core.files.images import ImageFile
 import requests
 import os
 
-from .models import List, Media
+from .models import List, Media, Rating
 # Save base request URL for reuse
 baseURL = 'https://api.themoviedb.org/3/'
 imageURL = 'https://image.tmdb.org/t/p/'
@@ -21,6 +21,12 @@ def listCheck(owner, list):
     else:
         return False
 
+def ratingCheck(user, subject):
+    check = Rating.objects.filter(user=user).filter(subject=subject).count()
+    if check > 0:
+        return True
+    else:
+        return False
 
 def getGenre(id, count, type):
     # ID is the genre ID queried for, count is how many genres to return, type is the media type

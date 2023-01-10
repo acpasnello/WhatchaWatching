@@ -7,9 +7,9 @@ import requests
 import json
 
 from FinalProject.keys import api_key
-from .models import User, List, ListItem
+from .models import User, List, ListItem, Rating
 from .forms import ListForm
-from .helpers import getGenre, getImage, constructInfo, listCheck, getShow, getMovie, getProviders
+from .helpers import getGenre, getImage, constructInfo, listCheck, getShow, getMovie, getProviders, ratingCheck
 
 # Save base request URL for reuse
 baseURL = "https://api.themoviedb.org/3/"
@@ -239,12 +239,17 @@ def details(request, type, id):
         url = None
     # Get watch providers
     providers = getProviders(id, type)
+    # Check for rating
+    rating = None
+    ratingcheck =  ratingCheck(request.user.id, id)
+    if ratingcheck:
+       rating = Rating.objects.filter(user=request.user.id).get(subject=id)
 
     # Render correct details page
     if type == 'movie':
-        return render(request, "watching/moviedetails.html", {'data': data, 'poster': url, 'providers': providers})
+        return render(request, "watching/moviedetails.html", {'data': data, 'poster': url, 'providers': providers, 'rating': rating})
     elif type == 'tv':
-        return render(request, "watching/tvdetails.html", {'data': data, 'poster': url, 'providers': providers})
+        return render(request, "watching/tvdetails.html", {'data': data, 'poster': url, 'providers': providers, 'rating': rating})
 
 def addtolist(request):
     # Requires listname, id, type submitted through a Form

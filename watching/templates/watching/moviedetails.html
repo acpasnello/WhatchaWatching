@@ -9,19 +9,47 @@
   {% endif %}
   <div class="detailsInfo">
     <h3 class="detailstitle">{{ data.title }}</h3>
-    <div class="addtolistbutton dropdown">
-      <button class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Add to List</button>
-      <form action="{% url 'addtolist' %}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="id" value="{{ data.id }}">
-        <input type="hidden" name="type" value="movie">
-        <ul class="dropdown-menu">
-          {% for list in user.mylists.all %}
-            <li><a><input class="dropdown-item" type="submit" name="list" value="{{ list.name }}"></input></a></li>
-          {% endfor %}
-        </ul>
-      </form>
-    </div>
+    {% if user.is_authenticated %}
+      <div class="details-buttons btn-group btn-group-sm" role="group">
+        <button id="add-rating-button" class="btn btn-danger">
+          {% if rating %}
+            Your Rating: {{ rating.rating }}
+          {% else %}
+            Add Rating
+          {% endif %}
+        </button>
+        <div id="rating-popup" class="popup">
+          <div class="popup-content">
+            <form name="rating">
+              <!-- {% csrf_token %} -->
+              <label for="rating">Rating (1.0-10.0):</label>
+              <input type="number" id="rating" name="rating" min="0" max="10" step=".5" {% if rating %}value="{{ rating.rating }}"{% else %}value="5"{% endif %}>
+              <br>
+              <label for="review">Review</label>
+              <br>
+              <textarea id="review" name="review" placeholder="Would you like to add your own review?">{% if rating %}{{ rating.review }}{% else %}{% endif %}</textarea>
+              <input type="hidden" id="id" name="id" value="{{ data.id }}">
+              <br>
+              <button class="btn btn-outline-danger" id="cancel-rating-button">Cancel</button>
+              <input type="submit" class="btn btn-outline-success" value="Rate" id="submit-rating">
+            </form>
+          </div>
+        </div>
+        <div class="addtolistbutton dropdown">
+          <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Add to List</button>
+          <form action="{% url 'addtolist' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ data.id }}">
+            <input type="hidden" name="type" value="movie">
+            <ul class="dropdown-menu">
+              {% for list in user.mylists.all %}
+                <li><a><input class="dropdown-item" type="submit" name="list" value="{{ list.name }}"></input></a></li>
+              {% endfor %}
+            </ul>
+          </form>
+        </div>
+      </div>
+    {% endif %}
     <p>{{ data.overview }}</p>
     <ul>
       {% for genre in data.genres %}

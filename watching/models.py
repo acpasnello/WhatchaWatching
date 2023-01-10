@@ -40,5 +40,7 @@ class Media(models.Model):
     poster = models.URLField()
 
 class Rating(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='myRatings')
+    subject = models.IntegerField()
     rating = models.DecimalField(max_digits=2, decimal_places=1, validators=[MinValueValidator(0.0), MaxValueValidator(10)])
+    review = models.TextField(blank=True, default='')
