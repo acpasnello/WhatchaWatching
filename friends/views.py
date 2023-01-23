@@ -1,15 +1,16 @@
 from django.shortcuts import render
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.serializers import serialize
 import json
 
 
 from .helpers import logActivity, orderUsers, checkShip, buttonFiller
 from watching.helpers import ratingCheck
 from watching.models import User, Rating
-from .models import Relationship
+from .models import Relationship, Activity
 
 # Create your views here.
 
@@ -35,7 +36,6 @@ def index(request):
         # friends[item.pk]['since'] = item.lastupdated
         since = item.lastupdated
         friends.append({'username': username, 'userid': userid, 'since': since})
-    print(friends)
     # Get sent requests
     sentRequests = Relationship.objects.filter((Q(user_first=user) & Q(type=PENDING_FIRST_SECOND)) | (Q(user_second=user) & Q(type=PENDING_SECOND_FIRST)))
     # Get incoming requests
@@ -195,7 +195,9 @@ def add_rating(request):
         jsondata = json.loads(request.body)
         user = User.objects.get(pk=request.user.id)
         subject = jsondata.get('subject')
+        name = jsondata.get('subjectname')
         rating = jsondata.get('rating')
+        subjecttype = jsondata.get('subjecttype')
         # Check if editing review
         if ratingCheck(user, subject):
             oldRating = Rating.objects.filter(user=user).get(subject=subject)
@@ -210,15 +212,32 @@ def add_rating(request):
         else:
             if jsondata.get('review'):
                 review = jsondata.get('review')
-                newRating = Rating(user=user,subject=subject,rating=rating,review=review)
+                newRating = Rating(user=user,subject=subject,subjecttype=subjecttype,name=name,rating=rating,review=review)
                 newRating.save()
                 print("success")
+                # logActivity(request, 'Reviewed', newRating, subject)
             else:
-                newRating = Rating(user=user,subject=subject,rating=rating)
+                newRating = Rating(user=user,subject=subject,subjecttype=subjecttype,name=name,rating=rating)
                 newRating.save()
                 print("success")
+                # logActivity(request, 'Rated', newRating, subject)
             response = JsonResponse({'message': 'Rating Saved', 'success': True})
         return response
 
     else:
         return HttpResponseRedirect(reverse('friends-index'))
+
+def activity(request):
+    user = User.objects.get(pk=request.user.id)
+    # Get user's friend relationships
+    friendsquery = Relationship.objects.filter(type=FRIENDS).filter(Q(user_first=user) | Q(user_second=user))
+    # Get users from friend relationships
+    friendIDS = []
+    for ship in friendsquery:
+        other = ship.otherUser(user)
+        friendIDS.append(other.pk)
+    friends = User.objects.filter(pk__in=friendIDS)
+    activities = Activity.objects.filter(user__in=friends).order_by('-when')
+    serializeddata = [activity.serialize() for activity in activities]
+    response = JsonResponse(serializeddata, safe=False)
+    return response

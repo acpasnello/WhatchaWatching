@@ -36,3 +36,8 @@
     min-width: 250px;
     max-width: 50%;
 }
+
+#info-display, #activity-display {
+    max-width: 50%;
+    display: inline-block;
+}

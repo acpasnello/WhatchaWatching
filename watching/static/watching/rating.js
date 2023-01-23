@@ -2,6 +2,8 @@ var popup = document.getElementById("rating-popup")
 var btn = document.getElementById("add-rating-button")
 var cancel = document.getElementById("cancel-rating-button")
 var submit = document.getElementById("submit-rating")
+var medianame = document.getElementById("subject-name").value
+var subjecttype = document.getElementById("subject-type").value
 
 btn.onclick = function(event) {
     event.preventDefault()
@@ -17,12 +19,13 @@ cancel.onclick = function() {
 async function submitRating(subject, rating, review=null) {
     var csrf = getCookie('csrftoken')
     let data = {
-            subject: subject,
-            rating: rating,
-            review: review
+            "subject": subject,
+            "subjectname": medianame,
+            "rating": rating,
+            "review": review,
+            "subjecttype": subjecttype
         };
     console.log(JSON.stringify(data))
-    console.log(typeof(JSON.stringify(data)))
     var response = await fetch("/community/addrating", {
         method: "POST",
         headers: {

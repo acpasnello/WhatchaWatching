@@ -10,5 +10,6 @@ urlpatterns = [
     path('acceptfriend', views.accept_friend, name='acceptfriend'),
     path('cancelrequest', views.cancel_request, name='cancelrequest'),
     path('removefriend', views.remove_friend, name='removefriend'),
-    path('addrating', views.add_rating, name='addrating')
+    path('addrating', views.add_rating, name='addrating'),
+    path('activity', views.activity, name='activity')
 ]

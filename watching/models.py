@@ -25,6 +25,9 @@ class ListItem(models.Model):
     name = models.CharField(max_length=200)
     type = models.CharField(max_length=20, choices=media_types)
 
+    def natural_key(self):
+        return (self.name, )
+
 
 class Media(models.Model):
     # Define media type options
@@ -40,7 +43,16 @@ class Media(models.Model):
     poster = models.URLField()
 
 class Rating(models.Model):
+    # Define media type options
+    MOVIE = 'M'
+    SHOW = 'S'
+    media_types = [
+    (MOVIE, 'Movie'),
+    (SHOW, 'Show'),
+    ]
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='myRatings')
     subject = models.IntegerField()
-    rating = models.DecimalField(max_digits=2, decimal_places=1, validators=[MinValueValidator(0.0), MaxValueValidator(10)])
+    subjecttype = models.CharField(max_length=20, choices=media_types)
+    name = models.CharField(max_length=200)
+    rating = models.DecimalField(max_digits=3, decimal_places=1, validators=[MinValueValidator(0.0), MaxValueValidator(10)])
     review = models.TextField(blank=True, default='')

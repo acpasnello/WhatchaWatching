@@ -29,6 +29,8 @@
               <br>
               <textarea id="review" name="review" placeholder="Would you like to add your own review?">{% if rating %}{{ rating.review }}{% else %}{% endif %}</textarea>
               <input type="hidden" id="id" name="id" value="{{ data.id }}">
+              <input type="hidden" id="subject-name" value="{{ data.original_name }}">
+              <input type="hidden" id="subject-type" value="S">
               <br>
               <button class="btn btn-outline-danger" id="cancel-rating-button">Cancel</button>
               <input type="submit" class="btn btn-outline-success" value="Rate" id="submit-rating">
@@ -79,4 +81,8 @@
     More info available <a href="{{ providers.link }}">here</a>.
   </div>
   
+{% endblock %}
+
+{% block morescripts %}
+  <script src="{% static 'watching/rating.js' %}"></script>
 {% endblock %}

@@ -67,7 +67,7 @@ def register(request):
             watchlist.save()
             favorites = List.objects.create(name='Favorites', description='My all-time favorites', owner=user)
             favorites.save()
-            watched = List.objects.create(name='Watched', description='Already Seen', owner=user)
+            watched = List.objects.create(name='Watched', description='Already seen', owner=user)
             watched.save()
         except IntegrityError:
             return render(request, "watching/register.html", {
@@ -145,17 +145,17 @@ def editlist(request, name):
     pass
 
 def viewlist(request, userid, name):
+    owner = User.objects.get(pk=userid)
     # Check list exists
-    listcheck = listCheck(request.user, name)
+    listcheck = listCheck(owner, name)
     # Is viewer owner?
     requester = request.user
-    owner = User.objects.get(pk=userid)
     if requester == owner:
         ownerviewing = True
     else:
         ownerviewing = False
     if listcheck:
-        list = List.objects.filter(owner=request.user).get(name=name)
+        list = List.objects.filter(owner=owner).get(name=name)
         # if ListItem.objects.filter(list=list.pk).count() > 0:
         items = ListItem.objects.filter(list=list.pk)
         return render(request, 'watching/viewlist.html', {'list': list, 'items': items, 'ownerviewing': ownerviewing, 'owner': owner})

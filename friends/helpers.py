@@ -1,8 +1,25 @@
 from django.urls import reverse
-from .models import Activity, Relationship
+from .models import Activity, Relationship, Rating, ListItem
 
-def logActivity(request, media, action):
-    newactivity = Activity(user=request.user, action=action, subject=media)
+def logActivity(request, action, dbitem, media):
+    # Define actions
+    RATE = 'Rate'
+    REVIEW = 'Review'
+    LIST = 'List'
+    WATCH = 'Watch'
+    CREATELIST = 'newlist'
+    action_types = [
+        (RATE, 'Rated'),
+        (REVIEW,'Reviewed'),
+        (LIST,'Updated a list'),
+        (WATCH, 'Watched'),
+        (CREATELIST, 'Created new list'),
+    ]
+    
+    if dbitem.__class__ == Rating:
+        newactivity = Activity(user=request.user, action=action, rating=dbitem, listitem=None, subject=media)
+    elif dbitem.__class__ == ListItem:
+        newactivity = Activity(user=request.user, action=action, rating=None, listitem=dbitem, subject=media)
     newactivity.save()
     return True
 

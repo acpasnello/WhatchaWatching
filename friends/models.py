@@ -1,5 +1,6 @@
 from django.db import models
-from watching.models import User, Media
+from watching.models import User, Media, Rating, ListItem, List
+from django.urls import reverse
 
 # Create your models here.
 class Relationship(models.Model):
@@ -88,18 +89,78 @@ class Activity(models.Model):
     # Define actions
     RATE = 'rated'
     REVIEW = 'reviewed'
-    LIST = 'Add to List'
-    WATCH = 'Watched'
+    LIST = 'added'
+    WATCH = 'watched'
+    CREATELIST = 'created'
     action_types = [
-        (RATE, 'Rating'),
-        (REVIEW,'Review'),
+        (RATE, 'Rated'),
+        (REVIEW,'Reviewed'),
         (LIST,'Add to List'),
         (WATCH, 'Watched'),
+        (CREATELIST, 'Create new list'),
+    ]
+
+    MOVIE = 'M'
+    SHOW = 'S'
+    media_types = [
+    (MOVIE, 'Movie'),
+    (SHOW, 'Show'),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='myActivity')
     action = models.CharField(max_length=30, choices=action_types)
-    # subject = models.ForeignKey(Media, on_delete=models.CASCADE)
-    subject = models.IntegerField()
+    rating = models.ForeignKey(Rating, on_delete=models.CASCADE, null=True)
+    listitem = models.ForeignKey(ListItem, on_delete=models.CASCADE, null=True)
+    list = models.ForeignKey(List, on_delete=models.CASCADE, null=True)
+    subject = models.IntegerField(null=True)
+    subjecttype = models.CharField(max_length=20, choices=media_types, null=True)
     when = models.DateTimeField(auto_now_add=True)
+
+    def serialize(self):
+        if self.rating:
+            return {
+                'id': self.pk,
+                'user': self.user.username,
+                'userID': self.user.pk,
+                'action': self.action,
+                'rating': self.rating.rating,
+                'review': self.rating.review,
+                'name': self.rating.name,
+                'medialink': reverse('details', args=[self.subjecttype, self.subject]),
+                'when': self.when
+            }
+        elif self.listitem:
+            return {
+                'id': self.pk,
+                'user': self.user.username,
+                'userID': self.user.pk,
+                'action': self.action,
+                'listitem': self.listitem.name,
+                'list': self.listitem.list.name,
+                'subject': self.subject,
+                'when': self.when,
+                'listlink': reverse('viewlist', args=[self.user.pk, self.listitem.list.name]),
+                'medialink': reverse('details', args=[self.subjecttype, self.subject])
+            }
+        elif self.list:
+            return {
+                'id': self.pk,
+                'user': self.user.username,
+                'userID': self.user.pk,
+                'action': self.action,
+                'list': self.list.name,
+                'when': self.when,
+                'link': reverse('viewlist', args=[self.user.pk, self.list.name])
+            }
+
+    def __str__(self):
+        string = ''
+        if self.rating:
+            # this needs to be updated to include the title
+            string = '%s rated %s' % (self.user.username, self.rating.name)
+        elif self.listitem:
+            string = '%s added %s to a list' % (self.user.username, self.listitem.name)
+        elif self.list:
+            string = '%s created a new list, %s' % (self.user.username, self.list.name)
+        return string
     
