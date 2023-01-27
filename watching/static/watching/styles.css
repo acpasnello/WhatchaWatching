@@ -142,8 +142,9 @@
   margin: 1px;
 }
 .browseList p {
-  display: inline-block;
+  /* display: inline-block; */
   vertical-align: middle;
+  display: table-cell;
 }
 
 .search-flex-container {
@@ -173,7 +174,6 @@
 .add-rating-button {
   position: relative;
   display: inline;
-  /* float: right; */
 }
 
 .popup {
@@ -194,4 +194,64 @@
   margin: 5%;
   padding: 20px;
   border: 1px solid #888;
+}
+
+#homepagebody {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-content: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+#homeleft, #homecenter, #homeright {
+  border: 1px solid rgb(95, 95, 95);
+  padding: 5px;
+}
+
+#homeleft, #homeright {
+  flex-grow: 1;
+}
+
+#homecenter {
+  flex-grow: 4;
+}
+
+#homeright {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+}
+
+#homeleft ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#homeright p, #homeleft p {
+  display: table-cell;
+}
+.homelistlink, .homeheaderlink {
+  text-decoration: none;
+  color: #181818;
+}
+.homelistlink:hover, .homeheaderlink:hover {
+  color: #b3b3b3
+}
+
+#homeright ol {
+    margin: 0px;
+  }
+
+.homeimg {
+  background-color: #fff;
+  max-width: 100px;
+  height: auto;
+  border: 1px solid #999999;
+  border-radius: .375rem;
+  vertical-align: top;
+  display: inline-block;
+  width: 50px;
 }

@@ -15,5 +15,6 @@ urlpatterns = [
     path('search', views.search, name='search'),
     path('details/<str:type>/<int:id>', views.details, name='details'),
     path('addtolist', views.addtolist, name='addtolist'),
-    path('removefromlist', views.removefromlist, name='removefromlist')
+    path('removefromlist', views.removefromlist, name='removefromlist'),
+    path('getposterpath', views.getposterpath, name='getposterpath')
 ]

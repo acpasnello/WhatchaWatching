@@ -7,6 +7,11 @@ def get_pic(path):
     url = 'https://image.tmdb.org/t/p/w185' + path
     return url
 
+@register.filter(name='get_pic_sm')
+def get_pic_sm(path):
+    url = 'https://image.tmdb.org/t/p/w92' + path
+    return url
+
 @register.filter(name='get_value')
 def get_value(dictionary, key):
     return dictionary.get(key)

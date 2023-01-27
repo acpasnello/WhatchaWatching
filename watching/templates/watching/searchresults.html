@@ -20,6 +20,7 @@
             {% csrf_token %}
             <input type="hidden" name="id" value="{{ id }}">
             <input type="hidden" name="type" value="{{ item.type }}">
+            <input type="hidden" name="poster" value="{{ item.poster_path }}">
             <ul class="dropdown-menu">
               {% for list in user.mylists.all %}
                 <li><a><input class="dropdown-item" type="submit" name="list" value="{{ list.name }}"></input></a></li>

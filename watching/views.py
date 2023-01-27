@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from sqlite3 import IntegrityError
@@ -8,6 +9,7 @@ import json
 
 from FinalProject.keys import api_key
 from .models import User, List, ListItem, Rating
+from friends.models import Relationship, Activity
 from .forms import ListForm
 from .helpers import getGenre, getImage, constructInfo, listCheck, getShow, getMovie, getProviders, ratingCheck
 
@@ -19,7 +21,34 @@ apiKey = api_key
 
 # Create your views here.
 def index(request):
-    return render(request, 'watching/index.html')
+    # Get active user
+    user = User.objects.get(pk=request.user.id)
+    # Get watchlist
+    watchlist = List.objects.filter(owner=user).get(name='Watchlist').listitems.all()
+    # Set up request info
+    partialURL = baseURL + 'discover/'
+    popularityParams = {'api_key': apiKey, 'sort_by': 'popularity.desc', 'include_adult': False, 'page': 1}
+    moviesURL = partialURL + 'movie'
+    showsURL = partialURL + 'tv'
+    # Get currently popular movie list
+    popMoviesRequest = requests.get(url = moviesURL, params = popularityParams)
+    popMovies = popMoviesRequest.json()
+    popMovies = popMovies['results']
+    # Get currently popular show list
+    popShowsRequest = requests.get(url = showsURL, params = popularityParams)
+    popShows = popShowsRequest.json()
+    popShows = popShows['results']
+    # Get activity
+    # Get user's friend relationships
+    friendsquery = Relationship.objects.filter(type='F').filter(Q(user_first=user) | Q(user_second=user))
+    friendIDS = []
+    for ship in friendsquery:
+        other = ship.otherUser(user)
+        friendIDS.append(other.pk)
+    friends = User.objects.filter(pk__in=friendIDS)
+    activities = Activity.objects.filter(user__in=friends).order_by('-when')
+    serializeddata = [activity.serialize() for activity in activities]
+    return render(request, 'watching/index.html', {'watchlist': watchlist, 'movielist': popMovies, 'showlist': popShows, 'activity': serializeddata})
 
 def login_view(request):
     if request.method == "POST":
@@ -163,7 +192,7 @@ def viewlist(request, userid, name):
             # return render(request, 'watching/viewlist.html', {'list': list})
 
     else:
-        return render(request, 'watching/viewlist.html', {'message': 'This list does not exist'})
+        return render(request, 'watching/viewlist.html', {'message': 'This list does not exist', 'owner': owner})
 
 def mylists(request):
     # Get user's lists
@@ -258,6 +287,7 @@ def addtolist(request):
         listname = request.POST['list']
         id = request.POST['id']
         type = request.POST['type']
+        poster = request.POST['poster']
         # Check list exists
         listcheck = listCheck(request.user, listname)
         if listcheck:
@@ -272,7 +302,7 @@ def addtolist(request):
                 r = getShow(id)
                 name = r['original_name']
                 typechoice = 'S'
-            newitem = ListItem(list = list, itemID = id, name = name, type = typechoice)
+            newitem = ListItem(list = list, itemID = id, name = name, type = typechoice, poster = poster)
             newitem.save()
         else:
             return render(request, 'watching/viewlist.html', {'message': 'The list you are trying to add to does not exist!'})
@@ -300,3 +330,19 @@ def removefromlist(request):
         
     else:
         return render(request, 'watching/viewlist.html', {'message': 'No, no, no, not today.'})
+
+def getposterpath(request):
+    jsondata = json.loads(request.body)
+    activityID = jsondata.get('id')
+    print(activityID)
+    activity = Activity.objects.get(pk=activityID)
+    if activity.subjecttype == 'M':
+        data = getMovie(activity.subject)
+    elif activity.subjecttype == 'S':
+        data = getMovie(activity.subject)
+    if data['poster_path']:
+        poster = {'url': getImage(data['poster_path'], 'w185')}
+    else:
+        poster = {'url': None}
+    response = JsonResponse(poster, safe=False)
+    return response

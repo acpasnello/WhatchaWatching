@@ -20,14 +20,11 @@ class ListItem(models.Model):
     ('S', 'Show'),
     ]
 
-    list = models.ForeignKey(List, on_delete=models.CASCADE)
+    list = models.ForeignKey(List, on_delete=models.CASCADE, related_name='listitems')
     itemID = models.IntegerField() # will be the ID, so you can look for a Media object or search TMDB
     name = models.CharField(max_length=200)
     type = models.CharField(max_length=20, choices=media_types)
-
-    def natural_key(self):
-        return (self.name, )
-
+    poster = models.CharField(max_length=200, null=True)
 
 class Media(models.Model):
     # Define media type options
