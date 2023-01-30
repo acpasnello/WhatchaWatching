@@ -16,7 +16,6 @@ from .helpers import getGenre, getImage, constructInfo, listCheck, getShow, getM
 # Save base request URL for reuse
 baseURL = "https://api.themoviedb.org/3/"
 # Save TMDB API key for use in requests
-# apiKey = '5101df70114a3ec8bc95967d080b3352'
 apiKey = api_key
 
 # Create your views here.

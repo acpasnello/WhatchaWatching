@@ -36,7 +36,7 @@ def listitem_activity(sender, instance, **kwargs):
 
 @receiver(post_save, sender=List)
 def list_activity(sender, instance, **kwargs):
-    user = instance.user
+    user = instance.owner
     item = instance
     newActivity = Activity(user=user, action=CREATELIST, list=item)
     newActivity.save()
