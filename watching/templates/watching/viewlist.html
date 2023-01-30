@@ -5,29 +5,30 @@
   {% if message %}
       <div>{{ message }}</div>
       <a href="{% url 'createlist' %}">Click here to create a new list</a>
-  {% endif %}
+  {% else %}
 
-  <h4 class="listtitle">{{ list.name }}</h4><h5 class="listowner">&nbsp;by <a href="{% url 'profile' owner.pk %}" class="listownerlink">{{ owner.username }}</a></h5>
-  {% if ownerviewing %}
-    <a href="{% url 'editlist' list.name %}" class="btn btn-outline-primary btn-sm">Edit Details</a>
-  {% endif %}
-  <p class="listdesc">{{ list.description }}</p>
-  <hr>
-    {% if items %}
-      {% for item in items %}
-        <div>
-          <a class="listlink" href="{% url 'details' item.type item.itemID %}">{{ item.name }}</a>
-          {% if ownerviewing %}
-            <form class="removebutton" action="{% url 'removefromlist' %}" method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="list" value="{{ list.name }}">
-              <input type="hidden" name="id" value="{{ item.itemID }}">
-              <button type="submit" class="removebutton btn btn-outline-danger btn-sm">Remove</button>
-            </form>
-          {% endif %}
-          <hr>
-        </div>
-      {% empty %}
-      {% endfor %}
+    <h4 class="listtitle">{{ list.name }}</h4><h5 class="listowner">&nbsp;by <a href="{% url 'profile' owner.pk %}" class="listownerlink">{{ owner.username }}</a></h5>
+    {% if ownerviewing %}
+      <a href="{% url 'editlist' list.name %}" class="btn btn-outline-primary btn-sm">Edit Details</a>
     {% endif %}
+    <p class="listdesc">{{ list.description }}</p>
+    <hr>
+      {% if items %}
+        {% for item in items %}
+          <div>
+            <a class="listlink" href="{% url 'details' item.type item.itemID %}">{{ item.name }}</a>
+            {% if ownerviewing %}
+              <form class="removebutton" action="{% url 'removefromlist' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="list" value="{{ list.name }}">
+                <input type="hidden" name="id" value="{{ item.itemID }}">
+                <button type="submit" class="removebutton btn btn-outline-danger btn-sm">Remove</button>
+              </form>
+            {% endif %}
+            <hr>
+          </div>
+        {% empty %}
+        {% endfor %}
+      {% endif %}
+  {% endif %}  
 {% endblock %}
