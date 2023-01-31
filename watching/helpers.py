@@ -1,10 +1,10 @@
-from django.conf import settings
-from django.core.files import File
-from django.core.files.images import ImageFile
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 import requests
-import os
+from functools import wraps
 
 from .models import List, Media, Rating
+
 # Save base request URL for reuse
 baseURL = 'https://api.themoviedb.org/3/'
 imageURL = 'https://image.tmdb.org/t/p/'
@@ -135,6 +135,14 @@ def getImage(APIpath, size = poster_sizes[3]):
     #     for chunk in r.iter_content(chunk_size=128):
     #         myfile.write(chunk)
     return url
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('browse'))
+        return f(request, *args, **kwargs)
+    return decorated_function
 
 def constructInfo(data):
     results = {}

@@ -1,7 +1,8 @@
 from django.contrib.auth import authenticate, login, logout
+# from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from sqlite3 import IntegrityError
 import requests
@@ -11,7 +12,7 @@ from FinalProject.keys import api_key
 from .models import User, List, ListItem, Rating
 from friends.models import Relationship, Activity
 from .forms import ListForm
-from .helpers import getGenre, getImage, constructInfo, listCheck, getShow, getMovie, getProviders, ratingCheck
+from .helpers import getGenre, getImage, listCheck, getShow, getMovie, getProviders, ratingCheck, login_required
 
 # Save base request URL for reuse
 baseURL = "https://api.themoviedb.org/3/"
@@ -19,6 +20,7 @@ baseURL = "https://api.themoviedb.org/3/"
 apiKey = api_key
 
 # Create your views here.
+@login_required
 def index(request):
     # Get active user
     user = User.objects.get(pk=request.user.id)

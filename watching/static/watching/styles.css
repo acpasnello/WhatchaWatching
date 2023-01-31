@@ -1,5 +1,15 @@
 .bodyblock {
   padding: 5px;
+  background-color: #e9dbc997;
+}
+
+.myLink {
+  text-decoration: none;
+  color: #198754;
+}
+
+.myLink:hover {
+  color: #4d4d4d;
 }
 .mynav {
   width: 100%;
@@ -254,4 +264,8 @@
   vertical-align: top;
   display: inline-block;
   width: 50px;
+}
+
+#loginprompt {
+  border-bottom: 1px solid rgb(33, 37, 41);
 }
