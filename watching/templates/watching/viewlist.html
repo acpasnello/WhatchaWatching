@@ -3,8 +3,10 @@
 
 {% block body %}
   {% if message %}
+    {% if reason == 'duplicate' %}
       <div>{{ message }}</div>
       <a href="{% url 'createlist' %}">Click here to create a new list</a>
+    {% endif %}
   {% else %}
 
     <h4 class="listtitle">{{ list.name }}</h4><h5 class="listowner">&nbsp;by <a href="{% url 'profile' owner.pk %}" class="listownerlink">{{ owner.username }}</a></h5>

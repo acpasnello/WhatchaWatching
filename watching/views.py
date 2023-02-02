@@ -12,7 +12,7 @@ from FinalProject.keys import api_key
 from .models import User, List, ListItem, Rating
 from friends.models import Relationship, Activity
 from .forms import ListForm
-from .helpers import getGenre, getImage, listCheck, getShow, getMovie, getProviders, ratingCheck, login_required
+from .helpers import getGenre, getImage, listCheck, getShow, getMovie, getProviders, ratingCheck, login_required, listItemCheck
 
 # Save base request URL for reuse
 baseURL = "https://api.themoviedb.org/3/"
@@ -276,11 +276,13 @@ def details(request, type, id):
     if ratingCheck(request.user.id, id):
        rating = Rating.objects.filter(user=request.user.id).get(subject=id)
 
+    # Get all reviews
+    reviews = Rating.objects.filter(subject=data['id'])
     # Render correct details page
     if type == 'movie':
-        return render(request, "watching/moviedetails.html", {'data': data, 'poster': url, 'providers': providers, 'rating': rating})
+        return render(request, "watching/moviedetails.html", {'data': data, 'poster': url, 'providers': providers, 'rating': rating, 'reviews': reviews})
     elif type == 'tv':
-        return render(request, "watching/tvdetails.html", {'data': data, 'poster': url, 'providers': providers, 'rating': rating})
+        return render(request, "watching/tvdetails.html", {'data': data, 'poster': url, 'providers': providers, 'rating': rating, 'reviews': reviews})
 
 def addtolist(request):
     # Requires listname, id, type submitted through a Form
@@ -303,10 +305,13 @@ def addtolist(request):
                 r = getShow(id)
                 name = r['original_name']
                 typechoice = 'S'
-            newitem = ListItem(list = list, itemID = id, name = name, type = typechoice, poster = poster)
-            newitem.save()
+            if listItemCheck(list, id):
+                return HttpResponseRedirect(reverse('viewlist', args=[list.owner.pk, list.name]))
+            else:
+                newitem = ListItem(list = list, itemID = id, name = name, type = typechoice, poster = poster)
+                newitem.save()
         else:
-            return render(request, 'watching/viewlist.html', {'message': 'The list you are trying to add to does not exist!'})
+            return render(request, 'watching/viewlist.html', {'message': 'The list you are trying to add to does not exist!', 'reason': 'nolist'})
 
         return HttpResponseRedirect(reverse('viewlist', args=[list.owner.pk, list.name]))
     

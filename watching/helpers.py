@@ -3,7 +3,7 @@ from django.urls import reverse
 import requests
 from functools import wraps
 
-from .models import List, Media, Rating
+from .models import List, Media, Rating, ListItem
 
 # Save base request URL for reuse
 baseURL = 'https://api.themoviedb.org/3/'
@@ -21,6 +21,14 @@ def listCheck(owner, list):
     else:
         return False
 
+def listItemCheck(list, itemID):
+    # Checks if item is already on list
+    check = ListItem.objects.filter(list=list).filter(itemID=itemID).count()
+    if check > 0:
+        return True
+    else:
+        return False
+    
 def ratingCheck(user, subject):
     check = Rating.objects.filter(user=user).filter(subject=subject).count()
     if check > 0:

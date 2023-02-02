@@ -37,6 +37,14 @@
             </form>
           </div>
         </div>
+        <form action="{% url 'addtolist' %}" method="POST" id="watchedForm">
+          {% csrf_token%}
+          <input type="hidden" name="id" value="{{ data.id }}">
+          <input type="hidden" name="type" value="tv">
+          <input type="hidden" name="poster" value="{{ data.poster_path }}">
+          <input type="hidden" name="list" value="Watched">
+        </form>
+        <input class="btn btn-primary" type="submit" value="Mark as Watched" form="watchedForm">
         <div class="addtolistbutton btn-group btn-group-sm" role="group">
           <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Add to List</button>
           <form action="{% url 'addtolist' %}" method="POST">
@@ -46,7 +54,10 @@
             <input type="hidden" name="poster" value="{{ data.poster_path }}">
             <ul class="dropdown-menu">
               {% for list in user.mylists.all %}
-                <li><a><input class="dropdown-item" type="submit" name="list" value="{{ list.name }}"></input></a></li>
+                {% if list.name == 'Watched' %}
+                {% else %}
+                  <li><a><input class="dropdown-item" type="submit" name="list" value="{{ list.name }}"></input></a></li>
+                {% endif %}
               {% endfor %}
             </ul>
           </form>
