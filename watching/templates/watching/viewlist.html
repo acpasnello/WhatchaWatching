@@ -3,7 +3,7 @@
 
 {% block body %}
   {% if message %}
-    {% if reason == 'duplicate' %}
+    {% if reason == 'nolist' %}
       <div>{{ message }}</div>
       <a href="{% url 'createlist' %}">Click here to create a new list</a>
     {% endif %}

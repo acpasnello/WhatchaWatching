@@ -38,7 +38,7 @@
           </div>
         </div>
         <form action="{% url 'addtolist' %}" method="POST" id="watchedForm">
-          {% csrf_token%}
+          {% csrf_token %}
           <input type="hidden" name="id" value="{{ data.id }}">
           <input type="hidden" name="type" value="movie">
           <input type="hidden" name="poster" value="{{ data.poster_path }}">

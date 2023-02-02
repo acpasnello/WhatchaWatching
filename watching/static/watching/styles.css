@@ -1,6 +1,15 @@
+html, body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction:column;
+  gap: 0px;
+}
 .bodyblock {
   padding: 5px;
   background-color: #e9dbc997;
+  flex-basis: 100%;
 }
 
 .myLink {
