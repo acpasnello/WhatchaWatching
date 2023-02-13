@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     var display = document.getElementById("activity-display")
-    fetch("/community/activity")
+    fetch("/watching/community/activity")
     .then((response) => {
         // console.log(response)
         return response.json()
