@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = SECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['.anthonypasnello.com', '146.190.68.113', '2604:a880:400:d0::239b:4001', 'localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -79,12 +79,8 @@ WSGI_APPLICATION = 'FinalProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'watching',
-	'USER': 'django',
-	'PASSWORD': 'b0522c1cb0f400ba0238820b336ce54a',
-	'HOST': 'localhost',
-	'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -129,7 +125,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-import os
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
