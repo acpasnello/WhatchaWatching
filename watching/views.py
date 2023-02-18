@@ -92,7 +92,9 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password, first_name, last_name)
+            user = User.objects.create_user(username, email, password)
+            user.first_name = first_name
+            user.last_name = last_name
             user.save()
             # Create Watchlist, Favorites, and Watched Lists for new user
             watchlist = List.objects.create(name='Watchlist', description="To watch soon", owner=user)
