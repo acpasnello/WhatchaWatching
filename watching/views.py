@@ -79,6 +79,8 @@ def register(request):
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
+        first_name = request.POST["first_name"]
+        last_name = request.POST["last_name"]
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -90,7 +92,7 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create_user(username, email, password, first_name, last_name)
             user.save()
             # Create Watchlist, Favorites, and Watched Lists for new user
             watchlist = List.objects.create(name='Watchlist', description="To watch soon", owner=user)
