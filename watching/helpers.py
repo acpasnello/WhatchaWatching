@@ -152,6 +152,38 @@ def login_required(f):
         return f(request, *args, **kwargs)
     return decorated_function
 
+def searchResult(result):
+    # Skip person results
+    if result['media_type'] == 'person':
+        return None
+    
+    id = result['id']
+    info = {}
+
+    # Get titles
+    if result['media_type'] == 'tv':
+        info['title'] = result['original_name']
+        type = 'tv'
+    elif result['media_type'] == 'movie':
+        info['title'] = result['title']
+        type = 'movie'
+    # Save type of media
+    info['type'] = type
+    # Get Overview
+    info['overview'] = result['overview']
+    # Get Genre if exists
+    if result['genre_ids']:
+        count = len(result['genre_ids'])
+        info['genre_count'] = count
+        info['genre'] = getGenre(result['genre_ids'], count, type)
+    else:
+        info['genre'] = None
+    # Get Poster if exists
+    if result['poster_path']:
+        info['poster_path'] = result['poster_path']
+    
+    return info
+
 def constructInfo(data):
     results = {}
     for result in data:

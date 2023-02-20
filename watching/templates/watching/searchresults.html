@@ -29,7 +29,19 @@
           </form>
         </div>
         <div>
-          {{ item.genre }}
+          {% if item.genre %}
+            {% if item.genre_count > 1 %}
+              {% for word in item.genre %}
+                {% if forloop.last %}
+                  {{word}}
+                {% else %}
+                  {{ word }},
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              {{ item.genre }}
+            {% endif %}
+          {% endif %}
         <p>{{ item.overview }}</p>
         </div>
       </div>

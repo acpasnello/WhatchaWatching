@@ -25,26 +25,37 @@ BLOCK_BOTH = 'BB'
 def index(request):
     # Get active user
     user = User.objects.get(pk=request.user.id)
-    # Search relationships for their friends, need to search with user in both possible user slots
-    friendsquery = Relationship.objects.filter(type=FRIENDS).filter(Q(user_first=user) | Q(user_second=user))
     friends = []
-    for item in friendsquery:
-        # friends[item.pk] = {}
-        # friends[item.pk]['username'] = item.otherUser(user).username
-        userid = item.otherUser(user).id
-        username = item.otherUser(user).username
-        # friends[item.pk]['since'] = item.lastupdated
-        since = item.lastupdated
-        friends.append({'username': username, 'userid': userid, 'since': since})
-    # Get sent requests
-    sentRequests = Relationship.objects.filter((Q(user_first=user) & Q(type=PENDING_FIRST_SECOND)) | (Q(user_second=user) & Q(type=PENDING_SECOND_FIRST)))
-    # Get incoming requests
-    incRequests = Relationship.objects.filter((Q(user_first=user) & Q(type=PENDING_SECOND_FIRST)) | (Q(user_second=user) & Q(type=PENDING_FIRST_SECOND)))
     actions = {}
     formactions = {}
     labels = {}
     values = {}
     receivers = {}
+    # Search relationships for their friends, need to search with user in both possible user slots
+    friendsquery = Relationship.objects.filter(type=FRIENDS).filter(Q(user_first=user) | Q(user_second=user))
+    for item in friendsquery:
+        # User info
+        userid = item.otherUser(user).id
+        username = item.otherUser(user).username
+        since = item.lastupdated
+        friends.append({'username': username, 'userid': userid, 'since': since})
+        # Construct form info
+        action = item.actions(user)
+        actions[username] = action
+        if item.position(user) == 1:
+            subjectUser = item.user_second
+        elif item.position(user) == 2:
+            subjectUser = item.user_first
+        button = buttonFiller(user, subjectUser, item)
+        formactions[username] = button['formaction']
+        if button['label']:
+            labels[username] = button['label']
+        values[username] = button['value']
+        receivers[username] = button['receiver']
+    # Get sent requests
+    sentRequests = Relationship.objects.filter((Q(user_first=user) & Q(type=PENDING_FIRST_SECOND)) | (Q(user_second=user) & Q(type=PENDING_SECOND_FIRST)))
+    # Get incoming requests
+    incRequests = Relationship.objects.filter((Q(user_first=user) & Q(type=PENDING_SECOND_FIRST)) | (Q(user_second=user) & Q(type=PENDING_FIRST_SECOND)))
     for req in sentRequests:
         action = req.actions(user)
         actions[req.pk] = action
@@ -101,9 +112,10 @@ def search(request):
         # For each result, check for relationship
         results = []
         for result in data:
-            user_first, user_second = orderUsers(activeUser, result)
-            print(user_first)
-            print(user_second)
+            try:
+                user_first, user_second = orderUsers(activeUser, result)
+            except TypeError:
+                continue
             try:
                 ship = Relationship.objects.filter(user_first=user_first).get(user_second=user_second)
                 button = buttonFiller(activeUser, result, ship)
@@ -112,7 +124,6 @@ def search(request):
                 ship = None
                 button = {'formaction': reverse('requestfriend'), 'value': 'Request Friend'}
                 results.append({'username': result.username, 'pk': result.pk, 'relationship': ship, 'button': button})
-        print(results)
         return render(request, 'friends/searchresults.html', {'results': results})
     else:
         return render(request, 'friends/friendsbase.html')
@@ -145,15 +156,20 @@ def accept_friend(request):
             if ship.type == 'PFS' or ship.type == 'PSF':
                 ship.type = 'F'
                 ship.save()
-                HttpResponseRedirect(reverse('friends-index'))
+                print("now friends")
+    
+                return HttpResponseRedirect(reverse('friends-index'))
             else:
                 # Want this to show message to user that they do not have a friend request to accept
-                HttpResponseRedirect(reverse('index'))
+                print("no request")
+                return HttpResponseRedirect(reverse('index'))
         else:
             # No relationship exists, need to tell user that, give them the option to send friend request
-            HttpResponseRedirect(reverse('index'))
+            print("no relationship")
+            return HttpResponseRedirect(reverse('index'))
     else:
-        # How did you get here?s
+        # How did you get here?
+        print("get request")
         return HttpResponseRedirect(reverse('index'))
 
 def cancel_request(request):
@@ -187,7 +203,25 @@ def cancel_request(request):
         return HttpResponseRedirect(reverse('index'))
 
 def remove_friend(request):
-    pass
+    if request.method == "POST":
+        data = request.POST
+        activeUser = User.objects.get(pk=request.user.id)
+        receiver = User.objects.get(pk=data['receiver'])
+        user_first, user_second = orderUsers(activeUser, receiver)
+        shipcheck = checkShip(user_first, user_second)
+        if shipcheck:
+            ship = Relationship.objects.get(user_first=user_first, user_second=user_second)
+            if ship.type == 'F':
+                ship.delete()
+                return HttpResponseRedirect(reverse('friends-index'))
+            else:
+                # Not friends, can't remove
+                return HttpResponseRedirect(reverse('friends-index'))
+        else:
+            # No relationship
+            return HttpResponseRedirect(reverse('friends-index'))
+    else:
+        return HttpResponseRedirect(reverse('friends-index'))
 
 @csrf_exempt
 def add_rating(request):

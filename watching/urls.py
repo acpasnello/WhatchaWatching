@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 
 from . import views
 
@@ -16,5 +17,6 @@ urlpatterns = [
     path('details/<str:type>/<int:id>', views.details, name='details'),
     path('addtolist', views.addtolist, name='addtolist'),
     path('removefromlist', views.removefromlist, name='removefromlist'),
-    path('getposterpath', views.getposterpath, name='getposterpath')
+    path('getposterpath', views.getposterpath, name='getposterpath'),
+    path('reset-password', views.reset_password, name='resetpassword' ),
 ]

@@ -27,7 +27,13 @@
                 <div id="friendslist">
                     <h4>Your Friends</h4>
                     {% for friend in friends %}
-                        <a href="{% url 'profile' friend.userid %}" class="friendsresult">{{ friend.username }}</a> - Friends since: {{ friend.since }}<br>
+                        <a href="{% url 'profile' friend.userid %}" class="friendsresult">{{ friend.username }}</a> - Friends since: {{ friend.since }}
+                        <form action="{{ formactions|get_value:friend.username }}" method="POST" id="form{{friend.userid}}" style="display: inline-block;">
+                            {% csrf_token %}
+                            <input type="submit" value="{{ values|get_value:friend.username }}" class="btn btn-outline-danger">
+                            <input form="form{{friend.userid}}" type="hidden" name="receiver" value="{{ receivers|get_value:friend.username }}">
+                        </form><br>
+
                     {% empty %}
                         No friends yet! Try meeting some people, loser.
                     {% endfor %}

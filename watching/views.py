@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordResetForm
 from django.shortcuts import render
 from django.db.models import Q
 from django.http import HttpResponseRedirect, JsonResponse
@@ -12,7 +12,7 @@ from FinalProject.keys import api_key
 from .models import User, List, ListItem, Rating
 from friends.models import Relationship, Activity
 from .forms import ListForm
-from .helpers import getGenre, getImage, listCheck, getShow, getMovie, getProviders, ratingCheck, login_required, listItemCheck
+from .helpers import getGenre, getImage, listCheck, getShow, getMovie, getProviders, ratingCheck, login_required, listItemCheck, searchResult
 
 # Save base request URL for reuse
 baseURL = "https://api.themoviedb.org/3/"
@@ -111,6 +111,14 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "watching/register.html")
+
+def reset_password(request):
+    if request.method == "POST":
+        data = request.POST
+    else:
+        form = PasswordResetForm()
+        return render(request, 'watching/resetpassword.html', {'form': form})
+    pass
 
 def browse(request):
     # Get top rated movies
@@ -224,8 +232,9 @@ def search(request):
             return HttpResponseRedirect(reverse('browse'))
     else:
         query = request.GET['query']
+        page = 1
         headers = {'user-agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36"}
-        params = {'api_key': apiKey, 'language': 'en-US', 'query': query, 'page': 1, 'include_adult': 'false'}
+        params = {'api_key': apiKey, 'language': 'en-US', 'query': query, 'page': page, 'include_adult': 'false'}
         searchRequest = requests.get(url = url, params = params, headers=headers)
         data = searchRequest.json()['results']
         results = {}
@@ -233,29 +242,20 @@ def search(request):
             # Skip person results
             if result['media_type'] == 'person':
                 continue
-
             id = result['id']
-            results[id] = {}
+            results[id] = searchResult(result)
 
-            # Get titles
-            if result['media_type'] == 'tv':
-                results[id]['title'] = result['original_name']
-                type = 'tv'
-            elif result['media_type'] == 'movie':
-                results[id]['title'] = result['title']
-                type = 'movie'
-            # Save type of media
-            results[id]['type'] = type
-            # Get Overview
-            results[id]['overview'] = result['overview']
-            # Get Genre if exists
-            if result['genre_ids']:
-                results[id]['genre'] = getGenre(result['genre_ids'], 1, type)
-            else:
-                results[id]['genre'] = None
-            # Get Poster if exists
-            if result['poster_path']:
-                results[id]['poster_path'] = result['poster_path']
+        pagecount = searchRequest.json()['total_pages']
+        if pagecount > 1:
+            for i in range(2, pagecount + 1):
+                params = {'api_key': apiKey, 'language': 'en-US', 'query': query, 'page': i, 'include_adult': 'false'}
+                r = requests.get(url = url, params = params, headers=headers)
+                for result in r.json()['results']:
+                    if result['media_type'] == 'person':
+                        continue
+                    id = result['id']
+                    results[id] = searchResult(result)
+      
         return render(request, "watching/searchresults.html", {'results': results, 'query': query})
 
 def details(request, type, id):
