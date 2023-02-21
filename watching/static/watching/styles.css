@@ -9,6 +9,7 @@ body {
 }
 .bodyblock {
   padding: 5px;
+  padding-top: 4.5em;
   background-color: #e9dbc997;
   flex-basis: 100%;
 }
@@ -280,4 +281,34 @@ body {
 
 #loginprompt {
   border-bottom: 1px solid rgb(33, 37, 41);
+}
+
+.Footer {
+  background-color: rgb(33, 37, 41);
+  color: #fefefe;
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+#TMDBlogo {
+  max-height: 2em;
+  max-width: 100px;
+}
+
+.footerSection {
+  width: 50%;
+  padding: 0 10px;
+  font-size: smaller;
+}
+
+.footerSection h6 {
+  font-weight: 700;
+}
+.footerSection a {
+  color: #fefefe;
+}
+
+.footerSection a:hover {
+  color: #198754;
 }

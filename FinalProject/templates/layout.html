@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
   </head>
   <body>
-    <nav class="navbar navbar-dark navbar-expand-sm bg-dark">
+    <nav class="navbar navbar-dark navbar-expand-sm fixed-top bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'index' %}">
           {% if user.is_authenticated %}
@@ -71,8 +71,16 @@
       {% block body %}
       {% endblock %}
     </div>
-    <footer>
-      
+    <footer class="Footer">
+      <div class="footerSection">
+        <h6>About</h6>
+        My name's Anthony and this is a project I built.
+        <a href="https://www.anthonypasnello.com">Click here</a> to find out more about me.
+      </div>
+      <div class="footerSection">
+        <h6>Credit</h6>
+        This product uses the TMDB API but is not endorsed or certified by TMDB. All data and images sourced from <a href="https://www.themoviedb.org">The Movie DB</a>.<span><a href="https://www.themoviedb.org"><img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg" id="TMDBlogo"></a></span>
+      </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <!-- <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
