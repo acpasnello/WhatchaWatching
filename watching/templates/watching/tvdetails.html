@@ -3,12 +3,12 @@
 
 {% block body %}
   {% if poster %}
-    <div class="detailsPoster">
+    <span class="detailsPoster">
       <img src="{{ poster }}">
-    </div>
+    </span>
   {% endif %}
   <div class="detailsInfo">
-    <h3 class="detailstitle">{{ data.original_name }}</h3>
+    <h2 class="detailstitle">{{ data.original_name }}</h2>
     {% if user.is_authenticated %}
       <div class="details-buttons btn-group btn-group-sm" role="group">
         <button id="add-rating-button" class="btn btn-danger" type="button">
@@ -65,32 +65,55 @@
       </div>
     {% endif %}
     <p>{{ data.overview }}</p>
-    <ul>
-      {% for genre in data.genres %}
-        <li>{{ genre.name }}</li>
-      {% endfor %}
-    </ul>
-    <h4>Where to Watch:</h4>
-    {% if providers.flatrate %}
-      {% for item in providers.flatrate %}
-      <img class="providerlogo lazyprovider" data-src="{{ item.logo }}">
-      {% endfor %}
-      <br>
+    {% if data.genres %}
+      <p>
+        Genres: 
+        {% for genre in data.genres %}
+          {% if forloop.last %}
+            {{ genre.name }}
+          {% else %}
+            {{ genre.name }},
+          {% endif %}
+        {% endfor %}
+      </p>
+    {% endif %}
+    {% if data.vote_average %}
+      <p>Average Rating: {{ data.vote_average|floatformat }}</p>
+    {% endif %}
+    {% if providers %}
+      <h4>Where to Watch:</h4>
+      {% if providers.flatrate %}
+        {% for item in providers.flatrate %}
+        <img class="providerlogo lazyprovider" data-src="{{ item.logo }}">
+        {% endfor %}
+        <br>
+      {% endif %}
+
+      {% if providers.rent %}
+        {% for item in providers.rent %}
+        <img class="providerlogo lazyprovider" data-src="{{ item.logo }}">
+        {% endfor %}
+        <br>
+      {% endif %}
+      {% if providers.buy %}
+        {% for item in providers.buy %}
+          <img class="providerlogo lazyprovider" data-src="{{ item.logo }}">
+        {% endfor %}
+        <br>
+      {% endif %}
+      More info available <a href="{{ providers.link }}">here</a>.
     {% endif %}
 
-    {% if providers.rent %}
-      {% for item in providers.rent %}
-      <img class="providerlogo lazyprovider" data-src="{{ item.logo }}">
+    {% if reviews %}
+      <hr>
+      <h4>Commentary</h4>
+      {% for review in reviews %}
+        <div>
+          <a href="{% url 'profile' review.user.id %}" class="listlink">{{ review.user.username }}</a><br>
+          {{ review.rating }}{% if review.review %}: {{review.review }}{% endif %}
+        </div>
       {% endfor %}
-      <br>
     {% endif %}
-    {% if providers.buy %}
-      {% for item in providers.buy %}
-        <img class="providerlogo lazyprovider" data-src="{{ item.logo }}">
-      {% endfor %}
-      <br>
-    {% endif %}
-    More info available <a href="{{ providers.link }}">here</a>.
   </div>
   
 {% endblock %}

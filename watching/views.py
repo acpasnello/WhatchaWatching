@@ -270,7 +270,7 @@ def details(request, type, id):
     data = r.json()
     # Get poster if available
     if data['poster_path']:
-        url = getImage(data['poster_path'], 'w185')
+        url = getImage(data['poster_path'], 'w500')
     else:
         url = None
     # Get watch providers
