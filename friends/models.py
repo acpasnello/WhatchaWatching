@@ -156,11 +156,10 @@ class Activity(models.Model):
     def __str__(self):
         string = ''
         if self.rating:
-            # this needs to be updated to include the title
-            string = '%s rated %s' % (self.user.username, self.rating.name)
+            string = 'Activity %i: %s rated %s' % (self.pk, self.user.username, self.rating.name)
         elif self.listitem:
-            string = '%s added %s to a list' % (self.user.username, self.listitem.name)
+            string = 'Activity %i: %s added %s to a list' % (self.pk, self.user.username, self.listitem.name)
         elif self.list:
-            string = '%s created a new list, %s' % (self.user.username, self.list.name)
+            string = 'Activity %i: %s created a new list, %s' % (self.pk, self.user.username, self.list.name)
         return string
     

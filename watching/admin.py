@@ -12,3 +12,6 @@ admin.site.register(ListItem)
 admin.site.register(Relationship)
 admin.site.register(Rating)
 admin.site.register(Activity, ActivityAdmin)
+
+# Correct 'View Site' Link
+admin.site.site_url = '/watching'

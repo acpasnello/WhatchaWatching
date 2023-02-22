@@ -120,6 +120,9 @@ def reset_password(request):
         return render(request, 'watching/resetpassword.html', {'form': form})
     pass
 
+def about(request):
+    return render(request, 'watching/about.html')
+
 def browse(request):
     # Get top rated movies
     partialURL = baseURL + 'discover/'
@@ -158,7 +161,6 @@ def createlist(request):
         else:
             # Create new list
             list = List.objects.create(name=name, description=description, owner=request.user)
-            list.save()
         # Render display of newly-created list
         return HttpResponseRedirect(reverse('viewlist', args=[list.owner.pk, name]))
     else:
