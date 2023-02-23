@@ -130,6 +130,12 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Email settings
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = apikey
+EMAIL_HOST_PASSWORD = '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'
+
 
 import os
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
