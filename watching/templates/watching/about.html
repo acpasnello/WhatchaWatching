@@ -3,9 +3,20 @@
 
 {% block body %}
 <div class="aboutContent">
+    <div>
+        {% if message %}
+            {{ message }}
+        {% endif %}
+        <form action="{% url 'about' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="recipient">
+            <input type="submit" value="Send">
+        </form>
+    </div>
     <div></div>
     <div></div>
-    <div></div>
-    <div></div>
+    <div>
+        <h2>Features Currently in Development</h2>
+    </div>
 </div>
 {% endblock %}

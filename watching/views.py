@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import PasswordResetForm
+from django.core.mail import send_mail
 from django.shortcuts import render
 from django.db.models import Q
 from django.http import HttpResponseRedirect, JsonResponse
@@ -121,7 +122,13 @@ def reset_password(request):
     pass
 
 def about(request):
-    return render(request, 'watching/about.html')
+    if request.method == "POST":
+        recipient = request.POST['recipient']
+        send_mail('Test','Here is the message.', 'anthony@anthonypasnello.com',[recipient],fail_silently=False,)
+        message = 'Email Sent'
+        return render(request, 'watching/about.html', {'message': message})
+    else:
+        return render(request, 'watching/about.html')
 
 def browse(request):
     # Get top rated movies
