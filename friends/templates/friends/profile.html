@@ -2,7 +2,14 @@
 {% load static %}
 
 {% block community %}
-    <h1>{{ user.username }}</h1>
+    <div>
+        <h1 class="profileusername">{{ user.username }}</h1>
+        <form method="POST" action="{{ buttons.formaction }}" class="profilebutton">
+            {% csrf_token %}
+            <input type="hidden" name="receiver" value="{{ buttons.receiver }}">
+            <button type="submit" class="profilebutton btn btn-outline-success">{{ buttons.value }}</button>
+        </form>
+    </div>
     <div class="flex-container">
         <div class="profile-lists-block">
             <h4>Lists</h4>

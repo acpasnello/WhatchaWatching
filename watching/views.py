@@ -289,8 +289,11 @@ def details(request, type, id):
     if ratingCheck(request.user.id, id):
        rating = Rating.objects.filter(user=request.user.id).get(subject=id)
 
-    # Get all reviews
-    reviews = Rating.objects.filter(subject=data['id'])
+    # Check if there are reviews
+    if Rating.objects.filter(subject=data['id']).count() > 0:
+        reviews = True
+    else:
+        reviews = False
     # Render correct details page
     if type == 'movie':
         return render(request, "watching/moviedetails.html", {'data': data, 'poster': url, 'providers': providers, 'rating': rating, 'reviews': reviews})
@@ -364,4 +367,15 @@ def getposterpath(request):
     else:
         poster = {'url': None}
     response = JsonResponse(poster, safe=False)
+    return response
+
+def reviews(request, subject):
+    query = Rating.objects.filter(subject=subject)
+    reviews = []
+    for review in query:
+        if review.review == '':
+            continue
+        else:
+            reviews.append(review.serialize())
+    response = JsonResponse(reviews, safe=False)
     return response

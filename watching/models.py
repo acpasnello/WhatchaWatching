@@ -56,3 +56,16 @@ class Rating(models.Model):
     name = models.CharField(max_length=200)
     rating = models.DecimalField(max_digits=3, decimal_places=1, validators=[MinValueValidator(0.0), MaxValueValidator(10)])
     review = models.TextField(blank=True, default='')
+    # datetime = models.DateTimeField(auto_now_add=True)
+
+    def serialize(self):
+        return {
+            'id': self.pk,
+            'user': self.user.username,
+            'userID': self.user.pk,
+            'subject': self.subject,
+            'subjecttype': self.subjecttype,
+            'name': self.name,
+            'rating': self.rating,
+            'review': self.review
+        }

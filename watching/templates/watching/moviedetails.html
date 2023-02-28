@@ -108,12 +108,7 @@
     {% if reviews %}
       <hr>
       <h4>Commentary</h4>
-      {% for review in reviews %}
-        <div>
-          <a href="{% url 'profile' review.user.id %}" class="listlink">{{ review.user.username }}</a><br>
-          {{ review.rating }}{% if review.review %}: {{review.review }}{% endif %}
-        </div>
-      {% endfor %}
+        <div id="reviews" class="container"></div>
     {% endif %}
   </div>
   
@@ -121,4 +116,5 @@
 
 {% block morescripts %}
   <script src="{% static 'watching/rating.js' %}"></script>
+  <script src="{% static 'watching/reviews.js' %}"></script>
 {% endblock %}

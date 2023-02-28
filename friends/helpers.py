@@ -52,36 +52,39 @@ def buttonFiller(activeUser, subjectUser, ship):
     # concerning the active user's options for interacting with the user in question
     # Give options for friend request, blocking
     # Need to supply button text, form action
-    action = ship.actions(activeUser)
-    if action == None:
+    
+    if ship == None:
         # Request Friend
+        label = 'Send Friend Request'
         value = 'Send Friend Request'
         formaction = reverse('requestfriend')
         receiver = subjectUser.pk
         # Block
-    elif action == 'wait':
-        # Wait for response or cancel request
-        label = 'Awaiting Response'
-        value = 'Cancel Friend Request'
-        formaction = reverse('cancelrequest')
-        receiver = subjectUser.pk
-    elif action == 'respond':
-        # Accept or deny friend request
-        label = "Respond to Request"
-        value = ['Accept', 'Reject']
-        formaction = [reverse('acceptfriend'), reverse('cancelrequest')]
-        receiver = subjectUser.pk
-    elif action == 'remove':
-        # Are friends, can remove friend or block
-        label = 'Remove Friend'
-        value = 'Remove Friend'
-        formaction = reverse('removefriend')
-        receiver = subjectUser.pk
-    elif action == 'unblock':
-        # Currently blocked, can unblock
-        pass
     else:
-        button = None
+        action = ship.actions(activeUser)
+        if action == 'wait':
+            # Wait for response or cancel request
+            label = 'Awaiting Response'
+            value = 'Cancel Friend Request'
+            formaction = reverse('cancelrequest')
+            receiver = subjectUser.pk
+        elif action == 'respond':
+            # Accept or deny friend request
+            label = "Respond to Request"
+            value = ['Accept', 'Reject']
+            formaction = [reverse('acceptfriend'), reverse('cancelrequest')]
+            receiver = subjectUser.pk
+        elif action == 'remove':
+            # Are friends, can remove friend or block
+            label = 'Remove Friend'
+            value = 'Remove Friend'
+            formaction = reverse('removefriend')
+            receiver = subjectUser.pk
+        elif action == 'unblock':
+            # Currently blocked, can unblock
+            pass
+        else:
+            button = None
 
     
     button = {'value': value, 'formaction': formaction, 'receiver': receiver, 'label': label}

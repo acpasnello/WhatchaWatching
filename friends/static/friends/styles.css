@@ -15,11 +15,6 @@
 .friendsresultlistitem {
     list-style-type: none;
 }
-#friendslist {
-    display: inline-block;
-    max-width: 65%;
-    border: 1px black;
-}
 #requests {
     display: inline-block;
     max-width: 30%;
@@ -38,6 +33,17 @@
 }
 
 #info-display, #activity-display {
-    max-width: 50%;
+    width: 50%;
     display: inline-block;
+}
+
+.profileusername {
+    display: inline-block
+}
+
+.profilebutton {
+    max-height: 100%;
+    width: auto;
+    float: right;
+    font-size: 1em;
 }

@@ -136,13 +136,15 @@ def profile(request, userid):
         shipcheck = checkShip(activeUser, user)
         if shipcheck:
             # Relationship exists, get buttons accordingly
-            buttons = []
+            user_first, user_second = orderUsers(activeUser, user)
+            ship = Relationship.objects.get(user_first=user_first, user_second=user_second)
+            buttons = buttonFiller(activeUser, user, ship)
         else:
             # No relationship, user should be able to send friend request
-            buttons = []
+            buttons = buttonFiller(activeUser,user,None)
     else:
         pass
-    return render(request, 'friends/profile.html', {'user': user, 'lists': user.mylists.all()})
+    return render(request, 'friends/profile.html', {'user': user, 'lists': user.mylists.all(), 'buttons': buttons})
 
 def accept_friend(request):
     if request.method == 'POST':

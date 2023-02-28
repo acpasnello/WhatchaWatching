@@ -19,4 +19,5 @@ urlpatterns = [
     path('addtolist', views.addtolist, name='addtolist'),
     path('removefromlist', views.removefromlist, name='removefromlist'),
     path('getposterpath', views.getposterpath, name='getposterpath'),
+    path('reviews/<int:subject>', views.reviews, name='reviews'),
 ]
