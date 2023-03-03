@@ -143,7 +143,7 @@ def profile(request, userid):
             # No relationship, user should be able to send friend request
             buttons = buttonFiller(activeUser,user,None)
     else:
-        pass
+        buttons = None
     return render(request, 'friends/profile.html', {'user': user, 'lists': user.mylists.all(), 'buttons': buttons})
 
 def accept_friend(request):

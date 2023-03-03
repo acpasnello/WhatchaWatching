@@ -23,7 +23,7 @@ function displayReview(element, div) {
     newDiv.innerHTML = 
     `
     <div class="details-review-userdisplay col-1">
-        <a href="/watching/profile/${element.userID}">${element.user}</a>
+        <a href="/watching/community/profile/${element.userID}">${element.user}</a>
     </div>
     <div class="details-review-content col">
         ${element.rating}<br>

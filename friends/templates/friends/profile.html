@@ -4,11 +4,13 @@
 {% block community %}
     <div>
         <h1 class="profileusername">{{ user.username }}</h1>
+        {% if buttons %}
         <form method="POST" action="{{ buttons.formaction }}" class="profilebutton">
             {% csrf_token %}
             <input type="hidden" name="receiver" value="{{ buttons.receiver }}">
             <button type="submit" class="profilebutton btn btn-outline-success">{{ buttons.value }}</button>
         </form>
+        {% endif %}
     </div>
     <div class="flex-container">
         <div class="profile-lists-block">

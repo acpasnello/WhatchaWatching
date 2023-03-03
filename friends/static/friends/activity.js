@@ -21,32 +21,32 @@ function activityBlock(activity, displayDiv) {
     if (activity.action == "reviewed") {
         newDiv.innerHTML = 
         `<div>
-            <a href="/watching/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="${activity.medialink}" class="browseList">${activity.name}</a>.<br>
+            <a href="/watching/community/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="${activity.medialink}" class="browseList">${activity.name}</a>.<br>
             <b>${activity.rating}</b>: "${activity.review}"
         </div>`
     }
     else if (activity.action == "rated") {
         newDiv.innerHTML = 
         `<div>
-            <a href="/watching/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="${activity.medialink}" class="browseList">${activity.name}</a>: <b>${activity.rating}</b>
+            <a href="/watching/community/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="${activity.medialink}" class="browseList">${activity.name}</a>: <b>${activity.rating}</b>
         </div>`
     }
     else if (activity.action == "added") {
         newDiv.innerHTML = 
         `<div>
-            <a href="/watching/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="${activity.medialink}" class="browseList">${activity.listitem}</a> to their list, <a href="${activity.listlink}">${activity.list}</a>.
+            <a href="/watching/community/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="${activity.medialink}" class="browseList">${activity.listitem}</a> to their list, <a href="${activity.listlink}">${activity.list}</a>.
         </div>`
     }
     else if (activity.action == "watched") {
         newDiv.innerHTML = 
         `<div>
-            <a href="/watching/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="#" class="browseList">${activity.listitem}.
+            <a href="/watching/community/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="#" class="browseList">${activity.listitem}.
         </div>`
     }
     else if (activity.action == "created") {
         newDiv.innerHTML = 
         `<div>
-            <a href="/watching/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} a new list, <a href="#">${activity.list}</a>.
+            <a href="/watching/community/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} a new list, <a href="#">${activity.list}</a>.
         </div>`
     }
     

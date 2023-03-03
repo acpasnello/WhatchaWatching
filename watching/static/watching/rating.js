@@ -26,7 +26,7 @@ async function submitRating(subject, rating, review=null) {
             "subjecttype": subjecttype
         };
     console.log(JSON.stringify(data))
-    var response = await fetch("/community/addrating", {
+    var response = await fetch("/watching/community/addrating", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

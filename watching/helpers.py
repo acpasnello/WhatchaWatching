@@ -81,11 +81,24 @@ def getGenre(id, count, type):
         }
     }
     if count == 1:
-        genre = genres[type][id[0]]
+        try:
+            genre = genres[type][id[0]]
+        except KeyError:
+            if type == 'movie':
+                genre = genres['tv'][id[0]]
+            elif type == 'tv':
+                genre = genres['movie'][id[0]]
     else:
         genre = []
         for i in range(count):
-            genre.append(genres[type][id[i]])
+            try:
+                genre.append(genres[type][id[i]])
+            except KeyError:
+                if type == 'movie':
+                    genre.append(genres['tv'][id[i]])
+                elif type == 'tv':
+                    genre.append(genres['movie'][id[i]])
+
 
     return genre
 
