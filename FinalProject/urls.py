@@ -23,8 +23,8 @@ urlpatterns = [
         path('community/', include('friends.urls')),
         path('admin/', admin.site.urls),
         path('reset-password', auth_views.PasswordResetView.as_view(), name='password_reset'), # name = 'password_reset', request reset link
-        path('reset-password-done', auth_views.PasswordResetDoneView.as_view()), # name = 'password_reset_done', confirms email sent 
-        path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view()), # name = 'password_reset_confirm', for entering new password
-        path('reset-password-complete', auth_views.PasswordResetCompleteView.as_view()) # name = 'password_reset_complete'
+        path('reset-password-done', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'), # name = 'password_reset_done', confirms email sent 
+        path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'), # name = 'password_reset_confirm', for entering new password
+        path('reset-password-complete', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete') # name = 'password_reset_complete'
     ])),
 ]
