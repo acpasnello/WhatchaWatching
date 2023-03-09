@@ -3,6 +3,7 @@
 __pycache__/
 FinalProject/keys.py
 FinalProject/*/__pycache__/*
+FinalProject/__pycache__/
 db.sqlite3
 myprojectenv/
 /static/
