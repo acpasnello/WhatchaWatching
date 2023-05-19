@@ -10,9 +10,15 @@ body {
   gap: 0px;
 }
 
+nav.navbar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
 .bodyblock {
   padding: 5px;
-  padding-top: 4.5em;
   background-color: #e9dbc997;
   flex-basis: 100%;
 }
@@ -45,12 +51,13 @@ body {
   flex-wrap: wrap;
   align-content: flex-start;
   gap: 5px;
+  padding-top: 5px;
 }
 
 .listblock {
   padding: 5px;
-  border: 1px solid #A9A9A9;
-  border-radius: 3px;
+  border-left: 1px solid #A9A9A9;
+  border-right: 1px solid #A9A9A9;
   flex: 1 1 330px;
   display: flex;
   flex-direction: column;
@@ -288,6 +295,7 @@ body {
 
 #loginprompt {
   border-bottom: 1px solid rgb(33, 37, 41);
+  padding-bottom: 5px;
 }
 
 .Footer {
