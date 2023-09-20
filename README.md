@@ -1,4 +1,4 @@
-# FinalProject-CS50w
+# WhatchaWatching? - CS50w FinalProject
 
 Movie and Series-based social network site where users can track their watch history, make lists, add their opinions, and see what friends are watching.
 
