@@ -11,3 +11,6 @@ Movie and Series-based social network site where users can track their watch his
 * The Movie Database API integration for getting movie and series information
 * SendGrid API integration to send emails to users
 * Lazy loading images to improve load times
+
+## Future Features
+* I'd like to make the lists location dependent, i.e. if I am a user in the United States then I will see the most popular, top rated in the United States. Currently the Movie Database does not filter ratings and traffic by location.
