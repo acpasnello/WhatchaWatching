@@ -2,91 +2,119 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>WatchaWatching?</title>
-    {% block moresheets %}
-    {% endblock %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
-    <link href="{% static 'watching/styles.css' %}" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <nav class="navbar navbar-dark navbar-expand-sm bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'index' %}">
-          {% if user.is_authenticated %}
-            WatchaWatching, {{user.username}}?
-          {% else %}
-            WatchaWatching?
-          {% endif %}
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <ul class="navbar-nav mynav">
-            <li><a {% block nav-home-class %}class="nav-link"{% endblock %} aria-current="page" href="{% url 'index' %}">Home</a></li>
-            <li><a {% block nav-browse-class %}class="nav-link"{% endblock %} href="{% url 'browse' %}">Browse</a></li>
-            {% if user.is_authenticated %}
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">My Lists</a>
-                <ul class="dropdown-menu dropdown-menu-dark">
-                  {% for list in user.mylists.all|slice:":2" %}
-                    <li><a class="dropdown-item" href="{% url 'viewlist' user.id list.name %}">{{ list.name }}</a></li>
-                  {% endfor %}
-                  <li><a class="dropdown-item" href="{% url 'mylists' %}">View All Lists</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="{% url 'createlist' %}">Create New List</a></li>
-                </ul>
-              </li>
-              <li><a {% block nav-com-class %}class="nav-link"{% endblock %} href="{% url 'friends-index' %}">Community</a></li>
-            {% else %}
-              <li><a class="nav-link" href="{% url 'login' %}">Login</a></li>
-              <li><a class="nav-link" href="{% url 'register' %}">Register</a></li>
-            {% endif %}
-            </ul>
-            <form class="d-flex" role="search" action="{% url 'search' %}" method="GET" id="searchform">
-              <input class="form-control me-2" type="search" id="search" name="query" placeholder="Search" aria-label="Search" value="{% block searchterm %}{% endblock %}">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-            <ul class="navbar-nav">
-              <li>
-                <a class="nav-link" href="{% url 'logout' %}" title="Logout">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
-                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                  </svg>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>WatchaWatching?</title>
+        {% block moresheets %} {% endblock %}
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" />
+        <link href="{% static 'watching/styles.css' %}" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" />
+    </head>
+    <body>
+        <nav class="navbar navbar-dark navbar-expand-sm bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'index' %}">
+                    {% if user.is_authenticated %} WatchaWatching, {{user.username}}? {% else %} WatchaWatching? {% endif %}
                 </a>
-              </li>
-            </ul>
-        </div>
-      </div>
-    </nav>
-    <div class="bodyblock">
-      {% block body %}
-      {% endblock %}
-    </div>
-    <footer class="Footer">
-      <div class="footerSection">
-        <h6>About</h6>
-        My name's Anthony and this is a project I built. <a href="{% url 'about' %}">Click</a> here to read more about this project.
-        <a href="https://www.anthonypasnello.com">Click here</a> to find out more about me.
-      </div>
-      <div class="footerSection">
-        <h6>Credit</h6>
-        This product uses the TMDB API but is not endorsed or certified by TMDB. All data and images sourced from <a href="https://www.themoviedb.org">The Movie DB</a>.<span><a href="https://www.themoviedb.org"><img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg" id="TMDBlogo"></a></span>
-      </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-    <!-- <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <ul class="navbar-nav mynav">
+                        <li><a {% block nav-home-class %}class="nav-link" {% endblock %} aria-current="page" href="{% url 'index' %}">Home</a></li>
+                        <li><a {% block nav-browse-class %}class="nav-link" {% endblock %} href="{% url 'browse' %}">Browse</a></li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">My Lists</a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                {% for list in user.mylists.all|slice:":2" %}
+                                <li><a class="dropdown-item" href="{% url 'viewlist' user.id list.name %}">{{ list.name }}</a></li>
+                                {% endfor %}
+                                <li><a class="dropdown-item" href="{% url 'mylists' %}">View All Lists</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'createlist' %}">Create New List</a></li>
+                            </ul>
+                        </li>
+                        <li><a {% block nav-com-class %}class="nav-link" {% endblock %} href="{% url 'friends-index' %}">Community</a></li>
+                        {% else %}
+                        <li><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                        <li><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                        {% endif %}
+                    </ul>
+                    <form class="d-flex" role="search" action="{% url 'search' %}" method="GET" id="searchform">
+                        <input
+                            class="form-control me-2"
+                            type="search"
+                            id="search"
+                            name="query"
+                            placeholder="Search"
+                            aria-label="Search"
+                            value="{% block searchterm %}{% endblock %}"
+                        />
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                    {% if user.is_authenticated %}
+                    <ul class="navbar-nav">
+                        <li>
+                            <a class="nav-link" href="{% url 'logout' %}" title="Logout">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                                    <path
+                                        d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+                                    />
+                                    <path
+                                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                                    />
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        <div class="bodyblock">{% block body %} {% endblock %}</div>
+        <footer class="Footer">
+            <div class="footerSection">
+                <h6>About</h6>
+                My name's Anthony and this is a project I built. <a href="{% url 'about' %}">Click</a> here to read more about this project.
+                <a href="https://www.anthonypasnello.com">Click here</a> to find out more about me.
+            </div>
+            <div class="footerSection">
+                <h6>Credit</h6>
+                This product uses the TMDB API but is not endorsed or certified by TMDB. All data and images sourced from
+                <a href="https://www.themoviedb.org">The Movie DB</a>.<span
+                    ><a href="https://www.themoviedb.org"
+                        ><img
+                            src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
+                            id="TMDBlogo" /></a
+                ></span>
+            </div>
+        </footer>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+            crossorigin="anonymous"
+        ></script>
+        <!-- <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script> -->
-    <script src="{% static 'watching/layout.js' %}"></script>
-    {% block morescripts %}
-    {% endblock %}
-  </body>
+        <script src="{% static 'watching/layout.js' %}"></script>
+        {% block morescripts %} {% endblock %}
+    </body>
 </html>
