@@ -1,38 +1,33 @@
-{% extends "friends/friendsbase.html" %}
-{% load static %}
+{% extends "friends/friendsbase.html" %} {% load static %} {% block community %}
+<div>
+    <h1 class="profileusername">{{ user.username }}</h1>
+    {% if buttons %}
+    <form method="POST" action="{{ buttons.formaction }}" class="profilebutton">
+        {% csrf_token %}
+        <input type="hidden" name="receiver" value="{{ buttons.receiver }}" />
+        <button type="submit" class="profilebutton btn btn-outline-success">{{ buttons.value }}</button>
+    </form>
+    {% endif %}
+</div>
+<div class="flex-container">
+    <div class="profile-lists-block">
+        <h4>Lists</h4>
+        <hr />
+        <ul>
+            {% for list in lists %}
+            <li>
+                <a href="{% url 'viewlist' user.pk list.name %}" class="listlink">{{ list.name }}</a>
+                <ul>
+                    <li>{{ list.description }}</li>
+                </ul>
+            </li>
 
-{% block community %}
-    <div>
-        <h1 class="profileusername">{{ user.username }}</h1>
-        {% if buttons %}
-        <form method="POST" action="{{ buttons.formaction }}" class="profilebutton">
-            {% csrf_token %}
-            <input type="hidden" name="receiver" value="{{ buttons.receiver }}">
-            <button type="submit" class="profilebutton btn btn-outline-success">{{ buttons.value }}</button>
-        </form>
-        {% endif %}
+            {% empty %} No lists yet! {% endfor %}
+        </ul>
     </div>
-    <div class="flex-container">
-        <div class="profile-lists-block">
-            <h4>Lists</h4>
-            <hr>
-            <ul>
-                {% for list in lists %}
-                    <li>
-                        <a href="{% url 'viewlist' user.pk list.name %}">{{ list.name }}</a>
-                        <ul>
-                            <li>{{ list.description }}</li>
-                        </ul>
-                    </li>
-                    
-                {% empty %}
-                    No lists yet!
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="profile-friends-block">
-            <h4>Friends</h4>
-            <hr>
-        </div>
+    <div class="profile-friends-block">
+        <h4>Friends</h4>
+        <hr />
     </div>
+</div>
 {% endblock %}
