@@ -32,13 +32,14 @@
     max-width: 50%;
 }
 
-#info-display, #activity-display {
+#info-display,
+#activity-display {
     width: 50%;
     display: inline-block;
 }
 
 .profileusername {
-    display: inline-block
+    display: inline-block;
 }
 
 .profilebutton {
@@ -46,4 +47,15 @@
     width: auto;
     float: right;
     font-size: 1em;
+}
+
+@media only screen and (max-width: 840px) {
+    #friendsearch {
+        float: none;
+    }
+
+    #info-display,
+    #activity-display {
+        width: 100%;
+    }
 }
