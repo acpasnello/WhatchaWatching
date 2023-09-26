@@ -227,6 +227,7 @@ nav.navbar {
     overflow: auto;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
 }
 
 .popup-content {
@@ -346,4 +347,19 @@ nav.navbar {
 
 .details-review-content {
     display: inline-block;
+}
+
+@media (max-width: 1100px) {
+    .popup {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 20px;
+        top: 64px;
+        width: 90%;
+        height: auto;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
 }
