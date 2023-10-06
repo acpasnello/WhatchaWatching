@@ -8,6 +8,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0px;
+    background-color: #e9dbc997;
     min-height: 100vh;
 }
 
@@ -20,8 +21,8 @@ nav.navbar {
 
 .bodyblock {
     padding: 5px;
-    background-color: #e9dbc997;
     flex-basis: 100%;
+    flex-grow: 1;
 }
 
 .myLink {
