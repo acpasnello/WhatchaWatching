@@ -1,3 +1,8 @@
+.community-content {
+    display: flex;
+    justify-content: space-between;
+}
+
 .friendsresult {
     text-decoration: none;
     color: gray;
@@ -33,7 +38,7 @@
 }
 
 #info-display, #activity-display {
-    width: 50%;
+    /* width: 50%; */
     display: inline-block;
 }
 

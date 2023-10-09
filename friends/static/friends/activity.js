@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((data) => {
             for (const element of data) {
                 activityBlock(element, display);
+                console.log(element)
             }
         })
         .catch((error) => {
@@ -17,26 +18,26 @@ document.addEventListener("DOMContentLoaded", function () {
 function activityBlock(activity, displayDiv) {
     var newDiv = document.createElement("div");
     if (activity.action == "reviewed") {
-        newDiv.innerHTML = `<div>
+        newDiv.innerHTML = `
             <a href="/watching/community/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="${activity.medialink}" class="browseList">${activity.name}</a>. - ${activity.when.toLocaleString()}<br>
             <b>${activity.rating}</b>: "${activity.review}"
-        </div>`;
+        `;
     } else if (activity.action == "rated") {
-        newDiv.innerHTML = `<div>
+        newDiv.innerHTML = `
             <a href="/watching/community/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="${activity.medialink}" class="browseList">${activity.name}</a>: <b>${activity.rating}</b> - ${activity.when}
-        </div>`;
+        `;
     } else if (activity.action == "added") {
-        newDiv.innerHTML = `<div>
-            <a href="/watching/community/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="${activity.medialink}" class="browseList">${activity.listitem}</a> to their list, <a href="${activity.listlink}">${activity.list}</a>. - ${activity.when}
-        </div>`;
+        newDiv.innerHTML = `
+            <a href="/watching/community/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="${activity.medialink}" class="browseList">${activity.listitem}</a> to their list, <a href="${activity.link}" class="browseList">${activity.list}</a>. - ${activity.when}
+        `;
     } else if (activity.action == "watched") {
-        newDiv.innerHTML = `<div>
-            <a href="/watching/community/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="#" class="browseList">${activity.listitem} - ${activity.when}.
-        </div>`;
+        newDiv.innerHTML = `
+            <a href="/watching/community/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} <a href="${activity.medialink}" class="browseList">${activity.listitem}</a> - ${activity.when}.
+        `;
     } else if (activity.action == "created") {
-        newDiv.innerHTML = `<div>
-            <a href="/watching/community/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} a new list, <a href="#" class="homelistlink">${activity.list}</a> - ${activity.when}.
-        </div>`;
+        newDiv.innerHTML = `
+            <a href="/watching/community/profile/${activity.userID}" class="friendsresult">${activity.user}</a> ${activity.action} a new list, <a href="${activity.link}" class="homelistlink">${activity.list}</a> - ${activity.when}.
+        `;
     }
 
     newDiv.style.borderStyle = "none none solid none";
