@@ -7,7 +7,7 @@ from django.core.serializers import serialize
 import json
 
 
-from .helpers import logActivity, orderUsers, checkShip, buttonFiller
+from .helpers import orderUsers, checkShip, buttonFiller
 from watching.helpers import ratingCheck
 from watching.models import User, Rating
 from .models import Relationship, Activity
