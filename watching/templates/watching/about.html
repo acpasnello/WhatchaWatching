@@ -3,7 +3,7 @@
 
 {% block body %}
 <div class="aboutContent">
-    <div>
+    <!-- <div>
         {% if message %}
             {{ message }}
         {% endif %}
@@ -12,11 +12,17 @@
             <input type="text" name="recipient">
             <input type="submit" value="Send">
         </form>
-    </div>
+    </div> -->
     <div></div>
     <div></div>
     <div>
         <h2>Features Currently in Development</h2>
+        <ul>
+            <li>Shared Lists</li>
+            <ul><li>Lists that can be edited by a group of users, controlled by the owner.</li></ul>
+            <li>Dynamic Search</li>
+            <ul><li>Populate search results below the search field as the user types.</li></ul>
+        </ul>
     </div>
 </div>
 {% endblock %}
