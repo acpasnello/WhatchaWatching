@@ -1,6 +1,7 @@
 from django.db import models
 from watching.models import User, Media, Rating, ListItem, List
 from django.urls import reverse
+from datetime import datetime
 
 # Create your models here.
 class Relationship(models.Model):
@@ -127,7 +128,7 @@ class Activity(models.Model):
                 'review': self.rating.review,
                 'name': self.rating.name,
                 'medialink': reverse('details', args=[self.subjecttype, self.subject]),
-                'when': self.when
+                'when': self.when.strftime("%d/%m/%Y %I:%M%p")
             }
         elif self.listitem:
             return {
@@ -138,7 +139,7 @@ class Activity(models.Model):
                 'listitem': self.listitem.name,
                 'list': self.listitem.list.name,
                 'subject': self.subject,
-                'when': self.when,
+                'when': self.when.strftime("%d/%m/%Y %I:%M%p"),
                 'listlink': reverse('viewlist', args=[self.user.pk, self.listitem.list.name]),
                 'medialink': reverse('details', args=[self.subjecttype, self.subject])
             }
@@ -149,7 +150,7 @@ class Activity(models.Model):
                 'userID': self.user.pk,
                 'action': self.action,
                 'list': self.list.name,
-                'when': self.when,
+                'when': self.when.strftime("%d/%m/%Y %I:%M%p"),
                 'link': reverse('viewlist', args=[self.user.pk, self.list.name])
             }
 

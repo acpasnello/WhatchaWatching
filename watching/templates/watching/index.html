@@ -1,60 +1,56 @@
-{% extends "layout.html" %}
-{% load static %}
-{% load watching_extras %}
-
-{% block nav-home-class %}
-    class="nav-link active"
-{% endblock %}
-
-{% block body %}
-    <div id="homepagebody">
-        <div id="homeleft">
-            <h4><a href="{% url 'viewlist' user.id 'Watchlist'%}" class="homeheaderlink">Watchlist</a></h4>
-            <ul>
-                {% for item in watchlist %}
-                    <li>
-                        <a href="{% url 'details' item.type item.itemID %}" class="homelistlink"><img {% if item.poster %}src="{{ item.poster|get_pic_sm }}"{% else %}{% endif %} class="homeimg"><p class="homelist">{{ item.name }}</p></a>
-                    </li>
+{% extends "layout.html" %} {% load static %} {% load watching_extras %} {% block moresheets %}
+<link href="{% static 'friends/styles.css' %}" rel="stylesheet" />
+{% endblock %} {% block nav-home-class %} class="nav-link active" {% endblock %} {% block body %}
+<div id="homepagebody">
+    <div id="homeleft">
+        <h4><a href="{% url 'viewlist' user.id 'Watchlist'%}" class="homeheaderlink">Watchlist</a></h4>
+        <ul>
+            {% for item in watchlist %}
+            <li>
+                <a href="{% url 'details' item.type item.itemID %}" class="homelistlink"
+                    ><img {% if item.poster %}src="{{ item.poster|get_pic_sm }}" {% else %}{% endif %} class="homeimg" />
+                    <p class="homelist">{{ item.name }}</p></a
+                >
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div id="homecenter">
+        <h4><a href="{% url 'friends-index' %}" class="homeheaderlink">Friend Activity</a></h4>
+        <div id="activity-display"></div>
+    </div>
+    <div id="homeright">
+        <div>
+            <h4>Trending Movies</h4>
+            <ol>
+                {% for item in movielist|slice:":5" %}
+                <li>
+                    <a href="{% url 'details' 'movie' item.id %}" class="homelistlink">
+                        <img src="{{ item.poster_path|get_pic_sm }}" class="homeimg" alt="{{ item.title }}" />
+                        <p class="homelist">{{ item.title }}</p>
+                    </a>
+                </li>
                 {% endfor %}
-            </ul>
+            </ol>
         </div>
-        <div id="homecenter">
-            <h4><a href="{% url 'friends-index' %}" class="homeheaderlink">Friend Activity</a></h4>
-            <div id="activity-display"></div>
-        </div>
-        <div id="homeright">
-            <div>
-                <h4>Trending Movies</h4>
-                <ol>
-                    {% for item in movielist|slice:":5" %}
-                        <li>
-                            <a href="{% url 'details' 'movie' item.id %}" class="homelistlink">
-                                <img src="{{ item.poster_path|get_pic_sm }}" class="homeimg" alt="{{ item.title }}">
-                                <p class="homelist">{{ item.title }}</p>
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ol>
-            </div>
-            <hr>
-            <div>
-                <h4>Trending Shows</h4>
-                <ol>
-                    {% for item in showlist|slice:":5" %}
-                        <li>
-                            <a href="{% url 'details' 'tv' item.id %}" class="homelistlink">
-                                <img src="https://via.placeholder.com/50x75" data-src="{{ item.poster_path|get_pic_sm }}" class="homeimg lazy" alt="{{ item.name }}">
-                                <p class="homelist">{{ item.name }}</p>
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ol>
-            </div>
+        <hr />
+        <div>
+            <h4>Trending Shows</h4>
+            <ol>
+                {% for item in showlist|slice:":5" %}
+                <li>
+                    <a href="{% url 'details' 'tv' item.id %}" class="homelistlink">
+                        <img src="https://via.placeholder.com/50x75" data-src="{{ item.poster_path|get_pic_sm }}" class="homeimg lazy" alt="{{ item.name }}" />
+                        <p class="homelist">{{ item.name }}</p>
+                    </a>
+                </li>
+                {% endfor %}
+            </ol>
         </div>
     </div>
-{% endblock %}
-
-{% block morescripts %}
-    <script src="{% static 'watching/home-activity.js' %}"></script>
-    <script src="{% static 'watching/posters.js' %}"></script>
+</div>
+{% endblock %} {% block morescripts %}
+<!-- <script src="{% static 'watching/home-activity.js' %}"></script> -->
+<script src="{% static 'friends/activity.js' %}"></script>
+<script src="{% static 'watching/posters.js' %}"></script>
 {% endblock %}
