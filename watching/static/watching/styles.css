@@ -1,340 +1,385 @@
 @font-face {
-  font-family: "Wotfard";
-  src: url("wotfard-regular-webfont.ttf") format("truetype");
+    font-family: "Wotfard";
+    src: url("wotfard-regular-webfont.ttf") format("truetype");
 }
 
 body {
-  font-family: Wotfard, 'Open Sans', sans-serif;
-  display: flex;
-  flex-direction:column;
-  gap: 0px;
+    font-family: Wotfard, "Open Sans", sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    background-color: #e9dbc997;
+    min-height: 100vh;
 }
 
 nav.navbar {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .bodyblock {
-  padding: 5px;
-  background-color: #e9dbc997;
-  flex-basis: 100%;
+    padding: 5px;
+    flex-basis: 100%;
+    flex-grow: 1;
 }
 
 .myLink {
-  text-decoration: none;
-  color: #198754;
+    text-decoration: none;
+    color: #198754;
 }
 
 .myLink:hover {
-  color: #4d4d4d;
+    color: #4d4d4d;
 }
 .mynav {
-  width: 100%;
+    width: 100%;
 }
 #searchform {
-  float: inline-end;
-  margin-left: auto;
-  margin-top: auto;
-  margin-bottom: auto;
+    float: inline-end;
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .myForm {
-  margin-left: 5px;
-  margin-right: 5px;
-  max-width: 600px;
+    margin-left: 5px;
+    margin-right: 5px;
+    max-width: 600px;
 }
 .flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  gap: 5px;
-  padding-top: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 5px;
+    padding-top: 5px;
 }
 
 .listblock {
-  padding: 5px;
-  border-left: 1px solid #A9A9A9;
-  border-right: 1px solid #A9A9A9;
-  flex: 1 1 330px;
-  display: flex;
-  flex-direction: column;
+    padding: 5px;
+    border-left: 1px solid #a9a9a9;
+    border-right: 1px solid #a9a9a9;
+    flex: 1 1 330px;
+    display: flex;
+    flex-direction: column;
 }
 
 .listblock ol > li > a {
-  /* display: flex;
+    /* display: flex;
   flex-direction: row; */
 }
 
 .detailsPoster {
-  /* max-width: 200px; */
-  float: left
+    /* max-width: 200px; */
+    float: left;
 }
 
-.detailsPoster img {max-width: 200px;}
+.detailsPoster img {
+    max-width: 200px;
+}
 
 .detailsInfo {
-  display: inline-block;
-  max-width: 80%;
-  margin-left: 15px;
+    display: inline-block;
+    max-width: 80%;
+    margin-left: 15px;
 }
 
-.browseList, .listlink {
-  text-decoration: none;
-  color: black;
+.browseList,
+.listlink {
+    text-decoration: none;
+    color: black;
 }
-.browseList:hover, .listlink:hover {
-  color: #4d4d4d;
+.browseList:hover,
+.listlink:hover {
+    color: #4d4d4d;
 }
 
 .browseList {
-  overflow: auto;
+    overflow: auto;
 }
 
 .addtolistbutton {
-  float: right;
-  display: inline;
+    float: right;
+    display: inline;
 }
 
-.searchtitle, .detailstitle {
-  display: inline-block;
+.searchtitle,
+.detailstitle {
+    display: inline-block;
 }
 
 .listlink {
-  display: inline;
+    display: inline;
 }
 
 .removebutton {
-  display: inline;
-  max-width: 100px;
-  float: right;
-  font-size: 0.75em;
+    display: inline;
+    max-width: 100px;
+    float: right;
+    font-size: 0.75em;
 }
 
 .listdesc {
-  color: #393939;
+    color: #393939;
 }
 
 .providerlogo {
-  width: 50px;
-  height: 50px;
-  border-radius: 5px;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
 }
 
 .listtitle {
-  display: inline-block;
+    display: inline-block;
 }
 
 .listowner {
-  display: inline-block;
-  color: #b3b3b3;
+    display: inline-block;
+    color: #b3b3b3;
 }
 
 .listownerlink {
-  text-decoration: none;
-  color: #b3b3b3;
+    text-decoration: none;
+    color: #b3b3b3;
 }
 
 .listownerlink:hover {
-  color: #999999;
+    color: #999999;
 }
 
 .browseImage {
-  /* padding: .25rem; */
-  background-color: #fff;
-  max-width: 100px;
-  height: auto;
-  border: 1px solid #999999;
-  border-radius: .375rem;
-  vertical-align: top;
-  display: inline-block;
+    /* padding: .25rem; */
+    background-color: #fff;
+    max-width: 100px;
+    height: auto;
+    border: 1px solid #999999;
+    border-radius: 0.375rem;
+    vertical-align: top;
+    display: inline-block;
 }
 
 .browseImage:hover {
-  border-color: #282828;
-  opacity: 0.75;
+    border-color: #282828;
+    opacity: 0.75;
 }
 @media screen and (max-width: 800px) {
-  img.lazy {
-    width: 50px;
-    height: auto;
-  }
-  .searchposter img {
-    width: 125px;
-  }
+    img.lazy {
+        width: 50px;
+        height: auto;
+    }
+    .searchposter img {
+        width: 125px;
+    }
 }
-@media screen and (min-width: 800px){
-  img.lazy {
-    width: 75px;
-    height: auto;
-  }
-  .searchposter img {
-    min-width: 150px;
-  }
+@media screen and (min-width: 800px) {
+    img.lazy {
+        width: 75px;
+        height: auto;
+    }
+    .searchposter img {
+        min-width: 150px;
+    }
 }
 
 .listblock li {
-  margin: 1px;
+    margin: 1px;
 }
 .browseList p {
-  /* display: inline-block; */
-  vertical-align: middle;
-  display: table-cell;
+    /* display: inline-block; */
+    vertical-align: middle;
+    display: table-cell;
 }
 
 .search-flex-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
 }
 .searchposter {
-  position: relative;
-  display: inline;
-  float: left;
+    position: relative;
+    display: inline;
+    float: left;
 }
 
 .searchinfo {
-  padding-left: 5px;
-  display: inline-block;
-  float: right;
-  max-width: 80%;
+    padding-left: 5px;
+    max-width: 80%;
 }
 
 .details-buttons {
-  display: inline-flex;
-  flex-direction: row;
-  float: right;
+    display: inline-flex;
+    flex-direction: row;
+    float: right;
 }
 .add-rating-button {
-  position: relative;
-  display: inline;
+    position: relative;
+    display: inline;
 }
 
 .popup {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  right: 20px;
-  top: 15%;
-  width: 30%;
-  height: auto;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+    display: none;
+    position: fixed;
+    z-index: 1;
+    right: 20px;
+    top: 15%;
+    width: 30%;
+    height: auto;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
 }
 
 .popup-content {
-  background-color: #fefefe;
-  margin: 5%;
-  padding: 20px;
-  border: 1px solid #888;
+    background-color: #fefefe;
+    margin: 5%;
+    padding: 20px;
+    border: 1px solid #888;
 }
 
 #homepagebody {
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  align-content: flex-start;
-  justify-content: flex-start;
-  width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: flex-start;
+    width: 100%;
 }
 
-#homeleft, #homecenter, #homeright {
-  border: 1px solid rgb(95, 95, 95);
-  padding: 5px;
+#homeleft,
+#homecenter,
+#homeright {
+    border: 1px solid rgb(95, 95, 95);
+    padding: 5px;
 }
 
-#homeleft, #homeright {
-  flex-grow: 1;
+#homeleft,
+#homeright {
+    flex-grow: 1;
 }
 
 #homecenter {
-  flex-grow: 4;
+    flex-grow: 4;
 }
 
 #homeright {
-  display: flex;
-  flex-direction: column;
-  align-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
 }
 
 #homeleft ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
-#homeright p, #homeleft p {
-  display: table-cell;
+#homeright p,
+#homeleft p {
+    display: table-cell;
 }
-.homelistlink, .homeheaderlink {
-  text-decoration: none;
-  color: #181818;
+.homelistlink,
+.homeheaderlink {
+    text-decoration: none;
+    color: #181818;
 }
-.homelistlink:hover, .homeheaderlink:hover {
-  color: #b3b3b3
+.homelistlink:hover,
+.homeheaderlink:hover {
+    color: #b3b3b3;
 }
 
 #homeright ol {
     margin: 0px;
-  }
+}
 
 .homeimg {
-  background-color: #fff;
-  max-width: 100px;
-  height: auto;
-  border: 1px solid #999999;
-  border-radius: .375rem;
-  vertical-align: top;
-  display: inline-block;
-  width: 50px;
+    background-color: #fff;
+    max-width: 100px;
+    height: auto;
+    border: 1px solid #999999;
+    border-radius: 0.375rem;
+    vertical-align: top;
+    display: inline-block;
+    width: 50px;
 }
 
 #loginprompt {
-  border-bottom: 1px solid rgb(33, 37, 41);
-  padding-bottom: 5px;
+    border-bottom: 1px solid rgb(33, 37, 41);
+    padding-bottom: 5px;
 }
 
 .Footer {
-  background-color: rgb(33, 37, 41);
-  color: #fefefe;
-  padding: 10px 10px;
-  display: flex;
-  flex-direction: row;
+    background-color: rgb(33, 37, 41);
+    color: #fefefe;
+    padding: 10px 10px;
+    display: flex;
+    flex-direction: row;
 }
 
 #TMDBlogo {
-  max-height: 2em;
-  max-width: 100px;
+    max-height: 2em;
+    max-width: 100px;
+    padding-left: 4px;
 }
 
 .footerSection {
-  width: 50%;
-  padding: 0 10px;
-  font-size: smaller;
+    width: 50%;
+    padding: 0 10px;
+    font-size: smaller;
 }
 
 .footerSection h6 {
-  font-weight: 700;
+    font-weight: 700;
 }
 .footerSection a {
-  color: #fefefe;
+    color: #fefefe;
 }
 
 .footerSection a:hover {
-  color: #198754;
+    color: #198754;
 }
 
 .details-review-userdisplay {
-  display: inline-block;
-  min-width: 15%;
-  max-width: 25%;
-  vertical-align: top;
+    display: inline-block;
+    min-width: 15%;
+    max-width: 25%;
+    vertical-align: top;
 }
 
 .details-review-content {
-  display: inline-block;
+    display: inline-block;
+}
+
+@media (max-width: 850px) {
+    .details-buttons {
+        float: none;
+    }
+    .detailsInfo {
+        max-width: 90%;
+        margin-left: 0;
+    }
+    .Footer {
+        flex-direction: column;
+    }
+    .footerSection {
+        width: 100%;
+        padding: 5px 0;
+    }
+}
+
+@media (max-width: 1100px) {
+    .popup {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 20px;
+        top: 64px;
+        width: 90%;
+        height: auto;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
 }
