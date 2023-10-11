@@ -37,14 +37,8 @@
     max-width: 50%;
 }
 
-<<<<<<< HEAD
-#info-display,
-#activity-display {
-    width: 50%;
-=======
 #info-display, #activity-display {
     /* width: 50%; */
->>>>>>> main
     display: inline-block;
 }
 
